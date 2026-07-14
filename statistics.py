@@ -148,11 +148,19 @@ def analyze():
     x_diag = np.linspace(min_val, max_val, 100)
     ax.plot(x_diag, x_diag, color='#555555', linestyle='--', linewidth=1.5, label='Perfect Calibration (Actual = Predicted)')
     
-    # Combined Regression line
-    if comb_stats:
-        x_reg = np.linspace(predicted.min() - 1, predicted.max() + 1, 100)
-        y_reg = comb_stats['slope'] * x_reg + comb_stats['intercept']
-        ax.plot(x_reg, y_reg, color='#38bdf8', linestyle='-', linewidth=2, label=f'OLS Combined (R² = {comb_stats["r_squared"]:.2f})')
+    # Nominal Regression line
+    if nom_stats:
+        nom_pred = predicted[nominal_indices]
+        x_nom = np.linspace(nom_pred.min() - 0.5, nom_pred.max() + 0.5, 100)
+        y_nom = nom_stats['slope'] * x_nom + nom_stats['intercept']
+        ax.plot(x_nom, y_nom, color='#fbbf24', linestyle='-', linewidth=2, label=f"Nominal OLS Fit (R² = {nom_stats['r_squared']:.2f})")
+        
+    # Real Regression line
+    if real_stats:
+        real_pred = predicted[real_indices]
+        x_real = np.linspace(real_pred.min() - 0.5, real_pred.max() + 0.5, 100)
+        y_real = real_stats['slope'] * x_real + real_stats['intercept']
+        ax.plot(x_real, y_real, color='#34d399', linestyle='-', linewidth=2, label=f"Real OLS Fit (R² = {real_stats['r_squared']:.2f})")
         
     # Scatter points colored by return type
     ax.scatter(predicted[nominal_indices], actual[nominal_indices], color='#fbbf24', s=80, alpha=0.85, edgecolors='white', linewidths=0.5, label='Nominal Predictions')
