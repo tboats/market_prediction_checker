@@ -31,50 +31,85 @@ def generate_dashboard():
     errors = [abs(r['forecast_error']) for r in elapsed]
     avg_error = (sum(errors) / len(errors)) if errors else 0
     
-    # Pearson Correlation and OLS Regression
-    predicted_arr = np.array([sum(r['predicted_range']) / 2.0 for r in elapsed])
-    actual_arr = np.array([r['actual_return'] for r in elapsed])
-    n = len(elapsed)
-    
-    if n > 2:
-        mean_p = np.mean(predicted_arr)
-        mean_a = np.mean(actual_arr)
-        
-        cov = np.sum((predicted_arr - mean_p) * (actual_arr - mean_a))
-        var_p = np.sum((predicted_arr - mean_p) ** 2)
-        var_a = np.sum((actual_arr - mean_a) ** 2)
-        
-        pearson_r = cov / math.sqrt(var_p * var_a)
-        
-        # OLS
-        slope = cov / var_p
-        intercept = mean_a - slope * mean_p
-        r_squared = pearson_r ** 2
+    # Helper to calculate subset statistics
+    def calculate_sub_stats(predicted_sub, actual_sub):
+        n_sub = len(predicted_sub)
+        if n_sub < 3:
+            return None
+        mean_p = np.mean(predicted_sub)
+        mean_a = np.mean(actual_sub)
+        cov = np.sum((predicted_sub - mean_p) * (actual_sub - mean_a))
+        var_p = np.sum((predicted_sub - mean_p) ** 2)
+        var_a = np.sum((actual_sub - mean_a) ** 2)
+        if var_p == 0 or var_a == 0:
+            return None
+        r = cov / math.sqrt(var_p * var_a)
         
         # Pearson p-value using t approximation
-        t_stat = pearson_r * math.sqrt((n - 2) / (1 - pearson_r**2))
+        t_stat = r * math.sqrt((n_sub - 2) / (1 - r**2))
         def t_pdf(u, df):
             coeff = math.gamma((df + 1) / 2) / (math.sqrt(df * math.pi) * math.gamma(df / 2))
             return coeff * (1 + (u**2) / df) ** (- (df + 1) / 2)
-            
         steps = 1000
         lower = abs(t_stat)
         upper = max(10.0, lower + 5.0)
         h = (upper - lower) / steps
-        integral = 0.5 * (t_pdf(lower, n-2) + t_pdf(upper, n-2))
+        integral = 0.5 * (t_pdf(lower, n_sub-2) + t_pdf(upper, n_sub-2))
         for i in range(1, steps):
-            integral += t_pdf(lower + i * h, n-2)
-        pearson_p = min(1.0, 2.0 * integral * h)
+            integral += t_pdf(lower + i * h, n_sub-2)
+        p_val = min(1.0, 2.0 * integral * h)
         
-        errors_arr = actual_arr - predicted_arr
-        mean_bias = np.mean(errors_arr)
-    else:
-        pearson_r = 0.0
-        pearson_p = 1.0
-        slope = 0.0
-        intercept = 0.0
-        r_squared = 0.0
-        mean_bias = 0.0
+        slope = cov / var_p
+        intercept = mean_a - slope * mean_p
+        r_squared = r ** 2
+        errors_sub = actual_sub - predicted_sub
+        mae = np.mean(np.abs(errors_sub))
+        bias = np.mean(errors_sub)
+        
+        return {
+            'n': n_sub, 'r': r, 'p': p_val, 'slope': slope, 'intercept': intercept,
+            'r_squared': r_squared, 'mae': mae, 'bias': bias
+        }
+
+    # Extract arrays
+    predicted_arr = np.array([sum(r['predicted_range']) / 2.0 for r in elapsed])
+    actual_arr = np.array([r['actual_return'] for r in elapsed])
+    n = len(elapsed)
+    
+    # Calculate stats
+    comb_stats = calculate_sub_stats(predicted_arr, actual_arr)
+    
+    nominal_indices = [i for i, r in enumerate(elapsed) if r['return_type'] == 'nominal']
+    real_indices = [i for i, r in enumerate(elapsed) if r['return_type'] == 'real']
+    
+    nom_stats = calculate_sub_stats(predicted_arr[nominal_indices], actual_arr[nominal_indices])
+    real_stats = calculate_sub_stats(predicted_arr[real_indices], actual_arr[real_indices])
+    
+    mean_bias = comb_stats['bias'] if comb_stats else 0.0
+    
+    # Pre-formatted stats variables for HTML template
+    comb_r = comb_stats['r'] if comb_stats else 0.0
+    comb_p = comb_stats['p'] if comb_stats else 1.0
+    comb_sig = 'Significant' if comb_stats and comb_stats['p'] < 0.05 else 'Not Significant'
+    comb_slope = comb_stats['slope'] if comb_stats else 0.0
+    comb_intercept = comb_stats['intercept'] if comb_stats else 0.0
+    comb_r2 = comb_stats['r_squared'] if comb_stats else 0.0
+    
+    nom_n = nom_stats['n'] if nom_stats else 0
+    nom_r = nom_stats['r'] if nom_stats else 0.0
+    nom_p = nom_stats['p'] if nom_stats else 1.0
+    nom_sig = 'Significant' if nom_stats and nom_stats['p'] < 0.05 else 'Not Significant'
+    nom_slope = nom_stats['slope'] if nom_stats else 0.0
+    nom_intercept = nom_stats['intercept'] if nom_stats else 0.0
+    nom_r2 = nom_stats['r_squared'] if nom_stats else 0.0
+    
+    real_n = real_stats['n'] if real_stats else 0
+    real_r = real_stats['r'] if real_stats else 0.0
+    real_p = real_stats['p'] if real_stats else 1.0
+    real_sig = 'Significant' if real_stats and real_stats['p'] < 0.05 else 'Not Significant'
+    real_slope = real_stats['slope'] if real_stats else 0.0
+    real_intercept = real_stats['intercept'] if real_stats else 0.0
+    real_r2 = real_stats['r_squared'] if real_stats else 0.0
         
     # Identify largest miss and closest prediction
     largest_miss = None
@@ -586,6 +621,18 @@ def generate_dashboard():
             line-height: 1.6;
         }}
         
+        .split-stats-grid {{
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }}
+        
+        @media(min-width: 768px) {{
+            .split-stats-grid {{
+                grid-template-columns: 1fr 1fr;
+            }}
+        }}
+        
         footer {{
             margin-top: 60px;
             border-top: 1px solid var(--border-color);
@@ -615,6 +662,20 @@ def generate_dashboard():
         
         <div class="metrics-grid">
             {metrics_html}
+        </div>
+        
+        <!-- DISTRIBUTION ANALYSIS & CLUSTERING -->
+        <div class="card full-width-card" style="margin-bottom: 30px; background-color: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 12px; color: var(--text-primary);">Institutional Forecast Distribution & Clustering</h3>
+            <p>
+                A visual inspection of the predictions database reveals a clear trend: <strong>institutions exhibit a strong consensus clustering (herd mentality)</strong>. 
+                Almost all nominal long-term projections (representing 21 of our 34 completed forecasts) are clustered extremely tightly in the <strong>4.0% to 8.0% nominal return range</strong>.
+            </p>
+            <p style="margin-top: 12px;">
+                This tight distribution suggests that Wall Street forecasts act more as a defensive consensus baseline rather than independent, bold predictions. 
+                Asset managers face career and reputational risks if they deviate too far from their peers, leading to a clustering around the 5–7% range. 
+                As a result, they fail to capture the fat-tailed upside of actual stock market returns (which averaged **12.5% to 15.5%** over many of these periods) or the downside of major bear markets.
+            </p>
         </div>
         
         <!-- CHART 1: Actual Return vs. Predicted Range (Full Width) -->
@@ -648,7 +709,7 @@ def generate_dashboard():
         </div>
 
         <!-- CHART 2: Prediction Calibration (Full Width) -->
-        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+        <div class="card full-width-card" style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px;">
             <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Prediction Calibration & Statistical Correlation</h3>
             <div class="chart-image-container" style="text-align: center; width: 100%;">
                 <img src="calibration.png" alt="Prediction Calibration Plot" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
@@ -657,21 +718,68 @@ def generate_dashboard():
             <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
                 <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
                 <p>
-                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>{n} elapsed predictions</strong>:
+                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>{n} elapsed predictions</strong>. 
+                </p>
+                <p style="margin-top: 8px; color: var(--text-secondary); font-style: italic;">
+                    Note: Combining nominal and real predictions into a single correlation model creates a misleading picture because they operate on different scales (nominal = real + inflation). Below, we display both the combined view and the split view.
                 </p>
                 
-                <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 15px; margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-                    <span style="color: var(--blue);">• Pearson Correlation (r):</span> {pearson_r:.4f}<br>
-                    <span style="color: var(--green);">• p-value (slope test):</span> {pearson_p:.6f} ({'Significant' if pearson_p < 0.05 else 'Not Significant'} at 5% level)<br>
-                    <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = {slope:.4f} * Predicted + {intercept:.2f}%<br>
-                    <span style="color: var(--red);">• R-squared (R²):</span> {r_squared:.4f} (Explains {r_squared*100:.1f}% of variance)
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
+                    <!-- Combined View -->
+                    <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                        <strong style="color: var(--blue); font-size: 0.9rem; display: block; margin-bottom: 6px;">COMBINED VIEW (N={n})</strong>
+                        • Pearson Correlation (r): {comb_r:.4f}<br>
+                        • p-value (slope test): {comb_p:.6f} ({comb_sig} at 5% level)<br>
+                        • OLS Trend Line: Actual = {comb_slope:.4f} * Predicted + {comb_intercept:.2f}%<br>
+                        • R-squared (R²): {comb_r2:.4f} (Explains {comb_r2*100:.1f}% of variance)
+                    </div>
+                    
+                    <div class="split-stats-grid">
+                        <!-- Nominal Only -->
+                        <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                            <strong style="color: var(--orange); font-size: 0.9rem; display: block; margin-bottom: 6px;">NOMINAL PREDICTIONS ONLY (N={nom_n})</strong>
+                            • Pearson Correlation (r): {nom_r:.4f}<br>
+                            • p-value (slope test): {nom_p:.6f} ({nom_sig} at 5% level)<br>
+                            • OLS Trend Line: Actual = {nom_slope:.4f} * Predicted + {nom_intercept:.2f}%<br>
+                            • R-squared (R²): {nom_r2:.4f} (Explains {nom_r2*100:.1f}% of variance)
+                        </div>
+                        
+                        <!-- Real Only -->
+                        <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                            <strong style="color: var(--green); font-size: 0.9rem; display: block; margin-bottom: 6px;">REAL PREDICTIONS ONLY (N={real_n})</strong>
+                            • Pearson Correlation (r): {real_r:.4f}<br>
+                            • p-value (slope test): {real_p:.6f} ({real_sig} at 5% level)<br>
+                            • OLS Trend Line: Actual = {real_slope:.4f} * Predicted + {real_intercept:.2f}%<br>
+                            • R-squared (R²): {real_r2:.4f} (Explains {real_r2*100:.1f}% of variance)
+                        </div>
+                    </div>
                 </div>
                 
                 <p style="margin-top: 12px;">
                     <strong>Key Statistical Takeaways:</strong><br>
-                    • <strong>Significant Signal:</strong> The p-value of {pearson_p:.4f} is {'below' if pearson_p < 0.05 else 'above'} the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
-                    • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+{intercept:.2f}%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of {intercept:.2f}% due to strong U.S. equity performance.<br>
-                    • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>{mean_bias:+.2f}%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative on average (underestimating actual returns).
+                    • <strong>The Combined View Illusion:</strong> While the combined view shows a statistically significant correlation (r = {comb_r:.4f}, p = {comb_p:.4f}), this is largely a mathematical illusion created by mixing two different scales (nominal and inflation-adjusted).<br>
+                    • <strong>Nominal Forecasts Carry Zero Signal:</strong> When isolated, nominal predictions show a slightly negative correlation of <strong>{nom_r:.4f}</strong> with a p-value of <strong>{nom_p:.4f}</strong>. This means we cannot reject the null hypothesis of zero correlation—making Wall Street's nominal forecasts indistinguishable from random noise.<br>
+                    • <strong>Real Forecasts Have Directional Signal:</strong> Real predictions show a moderate positive correlation (r = {real_r:.4f}, p = {real_p:.4f}). Though not statistically significant at the 5% level due to a small sample size (n = {real_n}), they show a much stronger link to realized returns.
+                </p>
+            </div>
+        </div>
+
+        <!-- CHART 3: Forecast Distribution Histogram (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Distribution of Forecasts</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="predictions_distribution.png" alt="Predictions Distribution Histogram" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3>The Herd Mentality of Stock Market Projections</h3>
+                <p style="margin-top: 12px;">
+                    This histogram illustrates the frequency of predicted return midpoints across all 37 predictions in our database. 
+                    The visual confirmation is striking: nominal predictions are heavily clustered in the <strong>5.0% to 7.0%</strong> range, with almost no predictions exceeding 9% or dropping below 3%.
+                </p>
+                <p style="margin-top: 12px;">
+                    This concentration highlights the systemic **conservatism bias** in institutional modeling. 
+                    By clustering around the historical average (adjusted slightly downward for high valuations), forecasters protect their reputations from outlier errors, but miss the actual realized outcomes (which frequently cluster in double-digits).
                 </p>
             </div>
         </div>

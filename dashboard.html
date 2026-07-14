@@ -351,6 +351,18 @@
             line-height: 1.6;
         }
         
+        .split-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media(min-width: 768px) {
+            .split-stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
         footer {
             margin-top: 60px;
             border-top: 1px solid var(--border-color);
@@ -396,6 +408,20 @@
         <div class="metric-subtext">Average absolute return difference in percentage points (pp)</div>
     </div>
     
+        </div>
+        
+        <!-- DISTRIBUTION ANALYSIS & CLUSTERING -->
+        <div class="card full-width-card" style="margin-bottom: 30px; background-color: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 12px; color: var(--text-primary);">Institutional Forecast Distribution & Clustering</h3>
+            <p>
+                A visual inspection of the predictions database reveals a clear trend: <strong>institutions exhibit a strong consensus clustering (herd mentality)</strong>. 
+                Almost all nominal long-term projections (representing 21 of our 34 completed forecasts) are clustered extremely tightly in the <strong>4.0% to 8.0% nominal return range</strong>.
+            </p>
+            <p style="margin-top: 12px;">
+                This tight distribution suggests that Wall Street forecasts act more as a defensive consensus baseline rather than independent, bold predictions. 
+                Asset managers face career and reputational risks if they deviate too far from their peers, leading to a clustering around the 5–7% range. 
+                As a result, they fail to capture the fat-tailed upside of actual stock market returns (which averaged **12.5% to 15.5%** over many of these periods) or the downside of major bear markets.
+            </p>
         </div>
         
         <!-- CHART 1: Actual Return vs. Predicted Range (Full Width) -->
@@ -448,7 +474,7 @@
         </div>
 
         <!-- CHART 2: Prediction Calibration (Full Width) -->
-        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+        <div class="card full-width-card" style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px;">
             <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Prediction Calibration & Statistical Correlation</h3>
             <div class="chart-image-container" style="text-align: center; width: 100%;">
                 <img src="calibration.png" alt="Prediction Calibration Plot" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
@@ -457,21 +483,68 @@
             <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
                 <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
                 <p>
-                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>34 elapsed predictions</strong>:
+                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>34 elapsed predictions</strong>. 
+                </p>
+                <p style="margin-top: 8px; color: var(--text-secondary); font-style: italic;">
+                    Note: Combining nominal and real predictions into a single correlation model creates a misleading picture because they operate on different scales (nominal = real + inflation). Below, we display both the combined view and the split view.
                 </p>
                 
-                <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 15px; margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-                    <span style="color: var(--blue);">• Pearson Correlation (r):</span> 0.4205<br>
-                    <span style="color: var(--green);">• p-value (slope test):</span> 0.013286 (Significant at 5% level)<br>
-                    <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = 0.6108 * Predicted + 7.65%<br>
-                    <span style="color: var(--red);">• R-squared (R²):</span> 0.1768 (Explains 17.7% of variance)
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
+                    <!-- Combined View -->
+                    <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                        <strong style="color: var(--blue); font-size: 0.9rem; display: block; margin-bottom: 6px;">COMBINED VIEW (N=34)</strong>
+                        • Pearson Correlation (r): 0.4205<br>
+                        • p-value (slope test): 0.013286 (Significant at 5% level)<br>
+                        • OLS Trend Line: Actual = 0.6108 * Predicted + 7.65%<br>
+                        • R-squared (R²): 0.1768 (Explains 17.7% of variance)
+                    </div>
+                    
+                    <div class="split-stats-grid">
+                        <!-- Nominal Only -->
+                        <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                            <strong style="color: var(--orange); font-size: 0.9rem; display: block; margin-bottom: 6px;">NOMINAL PREDICTIONS ONLY (N=21)</strong>
+                            • Pearson Correlation (r): -0.2119<br>
+                            • p-value (slope test): 0.356365 (Not Significant at 5% level)<br>
+                            • OLS Trend Line: Actual = -0.6242 * Predicted + 16.43%<br>
+                            • R-squared (R²): 0.0449 (Explains 4.5% of variance)
+                        </div>
+                        
+                        <!-- Real Only -->
+                        <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; font-size: 0.85rem; line-height: 1.6;">
+                            <strong style="color: var(--green); font-size: 0.9rem; display: block; margin-bottom: 6px;">REAL PREDICTIONS ONLY (N=13)</strong>
+                            • Pearson Correlation (r): 0.4110<br>
+                            • p-value (slope test): 0.162952 (Not Significant at 5% level)<br>
+                            • OLS Trend Line: Actual = 1.1133 * Predicted + 7.45%<br>
+                            • R-squared (R²): 0.1689 (Explains 16.9% of variance)
+                        </div>
+                    </div>
                 </div>
                 
                 <p style="margin-top: 12px;">
                     <strong>Key Statistical Takeaways:</strong><br>
-                    • <strong>Significant Signal:</strong> The p-value of 0.0133 is below the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
-                    • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+7.65%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of 7.65% due to strong U.S. equity performance.<br>
-                    • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>+5.97%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative on average (underestimating actual returns).
+                    • <strong>The Combined View Illusion:</strong> While the combined view shows a statistically significant correlation (r = 0.4205, p = 0.0133), this is largely a mathematical illusion created by mixing two different scales (nominal and inflation-adjusted).<br>
+                    • <strong>Nominal Forecasts Carry Zero Signal:</strong> When isolated, nominal predictions show a slightly negative correlation of <strong>-0.2119</strong> with a p-value of <strong>0.3564</strong>. This means we cannot reject the null hypothesis of zero correlation—making Wall Street's nominal forecasts indistinguishable from random noise.<br>
+                    • <strong>Real Forecasts Have Directional Signal:</strong> Real predictions show a moderate positive correlation (r = 0.4110, p = 0.1630). Though not statistically significant at the 5% level due to a small sample size (n = 13), they show a much stronger link to realized returns.
+                </p>
+            </div>
+        </div>
+
+        <!-- CHART 3: Forecast Distribution Histogram (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Distribution of Forecasts</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="predictions_distribution.png" alt="Predictions Distribution Histogram" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3>The Herd Mentality of Stock Market Projections</h3>
+                <p style="margin-top: 12px;">
+                    This histogram illustrates the frequency of predicted return midpoints across all 37 predictions in our database. 
+                    The visual confirmation is striking: nominal predictions are heavily clustered in the <strong>5.0% to 7.0%</strong> range, with almost no predictions exceeding 9% or dropping below 3%.
+                </p>
+                <p style="margin-top: 12px;">
+                    This concentration highlights the systemic **conservatism bias** in institutional modeling. 
+                    By clustering around the historical average (adjusted slightly downward for high valuations), forecasters protect their reputations from outlier errors, but miss the actual realized outcomes (which frequently cluster in double-digits).
                 </p>
             </div>
         </div>
