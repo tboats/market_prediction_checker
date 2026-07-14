@@ -1456,6 +1456,38 @@
                 </div>
             </div>
         </div>
+
+        <div class="chart-layout" style="margin-top: 30px;">
+            <div class="card chart-card">
+                <h3 style="margin-bottom: 16px; align-self: flex-start; font-size: 1.2rem; font-weight: 600;">Prediction Calibration</h3>
+                <img src="calibration.png" alt="Prediction Calibration Plot">
+            </div>
+            
+            <div class="card analysis-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
+                    <p>
+                        To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>23 elapsed predictions</strong>:
+                    </p>
+                    
+                    <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
+                        <span style="color: var(--blue);">• Pearson Correlation (r):</span> 0.5075<br>
+                        <span style="color: var(--green);">• p-value (slope test):</span> 0.0134 (Statistically Significant)<br>
+                        <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = 0.4632 * Predicted + 10.76%<br>
+                        <span style="color: var(--red);">• R-squared (R²):</span> 0.2576 (Explains ~26% of variance)
+                    </div>
+                </div>
+                
+                <div>
+                    <p>
+                        <strong>Key Statistical Takeaways:</strong><br>
+                        • <strong>Significant Signal:</strong> The p-value of 0.0134 is well below the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
+                        • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+10.76%</strong>. This indicates that even a predicted return of 0% historically translated to double-digit actual returns due to strong U.S. equity performance.<br>
+                        • <strong>Universal Underestimation:</strong> The Mean Forecast Bias is <strong>+8.54%</strong>, matching the Mean Absolute Error (MAE) exactly. Every single completed prediction underestimated the S&P 500 Total Return.
+                    </p>
+                </div>
+            </div>
+        </div>
         
         <footer>
             Stock Market Prediction Checker • Built with Python, yfinance, and FRED CPI Data • Last Updated: 2026-07-12
