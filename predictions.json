@@ -362,5 +362,159 @@
     ],
     "context": "Goldman Sachs projected a 6.0% nominal return for S&P 500.",
     "source_url": "https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167"
+  },
+  {
+    "id": "bogle-2000-us-equities-10y",
+    "organization": "Jack Bogle",
+    "source_date": "2000-06-30",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      6.0,
+      6.0
+    ],
+    "context": "Bogle Expected Return formula forecast for the 'lost decade'.",
+    "source_url": "https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/"
+  },
+  {
+    "id": "bogle-2002-us-equities-10y",
+    "organization": "Jack Bogle",
+    "source_date": "2002-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.0,
+      8.0
+    ],
+    "context": "Bogle Investment Outlook 2002 forecast during the dot-com bottom.",
+    "source_url": "https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/"
+  },
+  {
+    "id": "gmo-2002-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2002-01-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.5,
+      -1.5
+    ],
+    "context": "Post-dot-com bubble. GMO projected negative real returns.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/gmos-stunningly-accurate-forecast/"
+  },
+  {
+    "id": "gmo-2005-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2005-01-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.0,
+      -1.0
+    ],
+    "context": "Mid-decade expansion. GMO forecasted negative real returns.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/"
+  },
+  {
+    "id": "gmo-2007-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2007-12-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.5,
+      -1.5
+    ],
+    "context": "Pre-GFC market peak. GMO projected negative real returns.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/"
+  },
+  {
+    "id": "jpmorgan-2005-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2005-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.75,
+      7.75
+    ],
+    "context": "JPM LTCMA projected 7.75% nominal return.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "jpmorgan-2008-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2008-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.75,
+      7.75
+    ],
+    "context": "JPM LTCMA projected 7.75% nominal return.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "jpmorgan-2010-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2010-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      8.25,
+      8.25
+    ],
+    "context": "Post-GFC Assumptions. JPM projected 8.25% nominal return.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "vanguard-2008-us-large-cap-10y",
+    "organization": "Vanguard",
+    "source_date": "2008-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      8.0,
+      10.0
+    ],
+    "context": "Pre-GFC peak. Vanguard expected 8-10% nominal returns.",
+    "source_url": "https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook"
+  },
+  {
+    "id": "vanguard-2010-us-large-cap-10y",
+    "organization": "Vanguard",
+    "source_date": "2010-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.0,
+      9.0
+    ],
+    "context": "Post-GFC recovery. Vanguard expected 7-9% nominal returns.",
+    "source_url": "https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook"
+  },
+  {
+    "id": "aqr-2001-us-large-cap-10y",
+    "organization": "AQR",
+    "source_date": "2001-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      0.5,
+      1.5
+    ],
+    "context": "Cliff Asness predicted low real returns due to high starting P/E.",
+    "source_url": "https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes"
   }
 ]

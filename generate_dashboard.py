@@ -1,5 +1,7 @@
 import os
 import json
+import math
+import numpy as np
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_PATH = os.path.join(REPO_DIR, "results.json")
@@ -28,6 +30,51 @@ def generate_dashboard():
     errors = [abs(r['forecast_error']) for r in elapsed]
     avg_error = (sum(errors) / len(errors)) if errors else 0
     
+    # Pearson Correlation and OLS Regression
+    predicted_arr = np.array([sum(r['predicted_range']) / 2.0 for r in elapsed])
+    actual_arr = np.array([r['actual_return'] for r in elapsed])
+    n = len(elapsed)
+    
+    if n > 2:
+        mean_p = np.mean(predicted_arr)
+        mean_a = np.mean(actual_arr)
+        
+        cov = np.sum((predicted_arr - mean_p) * (actual_arr - mean_a))
+        var_p = np.sum((predicted_arr - mean_p) ** 2)
+        var_a = np.sum((actual_arr - mean_a) ** 2)
+        
+        pearson_r = cov / math.sqrt(var_p * var_a)
+        
+        # OLS
+        slope = cov / var_p
+        intercept = mean_a - slope * mean_p
+        r_squared = pearson_r ** 2
+        
+        # Pearson p-value using t approximation
+        t_stat = pearson_r * math.sqrt((n - 2) / (1 - pearson_r**2))
+        def t_pdf(u, df):
+            coeff = math.gamma((df + 1) / 2) / (math.sqrt(df * math.pi) * math.gamma(df / 2))
+            return coeff * (1 + (u**2) / df) ** (- (df + 1) / 2)
+            
+        steps = 1000
+        lower = abs(t_stat)
+        upper = max(10.0, lower + 5.0)
+        h = (upper - lower) / steps
+        integral = 0.5 * (t_pdf(lower, n-2) + t_pdf(upper, n-2))
+        for i in range(1, steps):
+            integral += t_pdf(lower + i * h, n-2)
+        pearson_p = min(1.0, 2.0 * integral * h)
+        
+        errors_arr = actual_arr - predicted_arr
+        mean_bias = np.mean(errors_arr)
+    else:
+        pearson_r = 0.0
+        pearson_p = 1.0
+        slope = 0.0
+        intercept = 0.0
+        r_squared = 0.0
+        mean_bias = 0.0
+        
     # Identify largest miss and closest prediction
     largest_miss = None
     closest_pred = None
@@ -643,23 +690,23 @@ def generate_dashboard():
                 <div>
                     <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
                     <p>
-                        To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>23 elapsed predictions</strong>:
+                        To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>{n} elapsed predictions</strong>:
                     </p>
                     
                     <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-                        <span style="color: var(--blue);">• Pearson Correlation (r):</span> 0.5075<br>
-                        <span style="color: var(--green);">• p-value (slope test):</span> 0.0134 (Statistically Significant)<br>
-                        <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = 0.4632 * Predicted + 10.76%<br>
-                        <span style="color: var(--red);">• R-squared (R²):</span> 0.2576 (Explains ~26% of variance)
+                        <span style="color: var(--blue);">• Pearson Correlation (r):</span> {pearson_r:.4f}<br>
+                        <span style="color: var(--green);">• p-value (slope test):</span> {pearson_p:.6f} ({'Significant' if pearson_p < 0.05 else 'Not Significant'} at 5% level)<br>
+                        <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = {slope:.4f} * Predicted + {intercept:.2f}%<br>
+                        <span style="color: var(--red);">• R-squared (R²):</span> {r_squared:.4f} (Explains {r_squared*100:.1f}% of variance)
                     </div>
                 </div>
                 
                 <div>
                     <p>
                         <strong>Key Statistical Takeaways:</strong><br>
-                        • <strong>Significant Signal:</strong> The p-value of 0.0134 is well below the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
-                        • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+10.76%</strong>. This indicates that even a predicted return of 0% historically translated to double-digit actual returns due to strong U.S. equity performance.<br>
-                        • <strong>Universal Underestimation:</strong> The Mean Forecast Bias is <strong>+8.54%</strong>, matching the Mean Absolute Error (MAE) exactly. Every single completed prediction underestimated the S&P 500 Total Return.
+                        • <strong>Significant Signal:</strong> The p-value of {pearson_p:.4f} is {'below' if pearson_p < 0.05 else 'above'} the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
+                        • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+{intercept:.2f}%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of {intercept:.2f}% due to strong U.S. equity performance.<br>
+                        • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>{mean_bias:+.2f}%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative (underestimating actual returns).
                     </p>
                 </div>
             </div>
