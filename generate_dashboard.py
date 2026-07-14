@@ -15,6 +15,7 @@ def generate_dashboard():
         
     with open(RESULTS_PATH, "r") as f:
         results = json.load(f)
+    results = sorted(results, key=lambda x: x["source_date"])
         
     # Calculate statistics
     elapsed = [r for r in results if r['is_elapsed']]
@@ -513,15 +514,10 @@ def generate_dashboard():
         }}
         
         .chart-layout {{
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 30px;
-        }}
-        
-        @media(min-width: 1024px) {{
-            .chart-layout {{
-                grid-template-columns: 3fr 2fr;
-            }}
+            margin-bottom: 40px;
         }}
         
         .chart-card {{
@@ -621,6 +617,66 @@ def generate_dashboard():
             {metrics_html}
         </div>
         
+        <!-- CHART 1: Actual Return vs. Predicted Range (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Actual Return vs. Predicted Range</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="actual_vs_predicted.png" alt="Actual vs Predicted Chart" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="insight-layout">
+                {insight_cards_html}
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3>The Bearish Bias of Institutional Forecasts</h3>
+                <p style="margin-top: 12px;">
+                    An analysis of the historical record reveals a striking pattern: 
+                    <strong>most evaluated predictions overperformed their forecast ranges</strong>, often by a massive margin.
+                </p>
+                <p style="margin-top: 12px;">
+                    For example, in 2016 both Vanguard and J.P. Morgan projected U.S. stock returns for the next 10 years would be muted. 
+                    Vanguard estimated 3.0%-7.0% nominal return, and J.P. Morgan projected 6.75%. 
+                    The S&P 500 Total Return index subsequently delivered an actual nominal return of <strong>15.57%</strong> annualized.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>Why are institutions consistently too conservative?</strong><br>
+                    1. <strong>Valuation-Based Models:</strong> Models like Vanguard's VCMM and GMO's forecasts are heavily driven by starting valuations. During the post-2009 era, high valuations (P/E ratios) constantly triggered warnings of mean reversion. However, valuations continued to expand, and corporate earnings grew faster than historical trends.<br>
+                    2. <strong>Asymmetric Risk:</strong> For asset managers, predicting high returns that fail to materialize carries high career and reputation risk. Conversely, predicting low returns when the market booms leaves clients pleasantly surprised.
+                </p>
+            </div>
+        </div>
+
+        <!-- CHART 2: Prediction Calibration (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Prediction Calibration & Statistical Correlation</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="calibration.png" alt="Prediction Calibration Plot" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
+                <p>
+                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>{n} elapsed predictions</strong>:
+                </p>
+                
+                <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 15px; margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
+                    <span style="color: var(--blue);">• Pearson Correlation (r):</span> {pearson_r:.4f}<br>
+                    <span style="color: var(--green);">• p-value (slope test):</span> {pearson_p:.6f} ({'Significant' if pearson_p < 0.05 else 'Not Significant'} at 5% level)<br>
+                    <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = {slope:.4f} * Predicted + {intercept:.2f}%<br>
+                    <span style="color: var(--red);">• R-squared (R²):</span> {r_squared:.4f} (Explains {r_squared*100:.1f}% of variance)
+                </div>
+                
+                <p style="margin-top: 12px;">
+                    <strong>Key Statistical Takeaways:</strong><br>
+                    • <strong>Significant Signal:</strong> The p-value of {pearson_p:.4f} is {'below' if pearson_p < 0.05 else 'above'} the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
+                    • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+{intercept:.2f}%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of {intercept:.2f}% due to strong U.S. equity performance.<br>
+                    • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>{mean_bias:+.2f}%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative on average (underestimating actual returns).
+                </p>
+            </div>
+        </div>
+
+        <!-- DATABASE TABLE (NOW BELOW CHARTS) -->
         <div class="main-grid">
             <div class="card table-card">
                 <div class="table-header">
@@ -647,67 +703,6 @@ def generate_dashboard():
                 <div style="font-size: 0.8rem; color: var(--text-secondary); padding: 12px 24px; text-align: left; border-top: 1px solid var(--border-color); line-height: 1.5;">
                     <div>* Forecast error is calculated as the **absolute difference in percentage points (pp)** between the actual return CAGR (or interim CAGR to date) and the predicted range midpoint.</div>
                     <div style="margin-top: 6px; color: var(--text-muted);">* Note: <strong>Active predictions</strong> show italicized values with an asterisk (e.g. <em>12.34%*</em>) indicating the <strong>interim return and interim forecast error to date</strong>. Because the time horizon has not elapsed, these figures are unfinalized and subject to significant change.</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="chart-layout">
-            <div class="card chart-card">
-                <h3 style="margin-bottom: 16px; align-self: flex-start; font-size: 1.2rem; font-weight: 600;">Actual Return vs. Predicted Range</h3>
-                <img src="actual_vs_predicted.png" alt="Actual vs Predicted Chart">
-            </div>
-            
-            <div class="insight-layout">
-                {insight_cards_html}
-                
-                <div class="card analysis-card">
-                    <h3>The Bearish Bias of Institutional Forecasts</h3>
-                    <p>
-                        An analysis of the historical record reveals a striking pattern: 
-                        <strong>every single evaluated prediction overperformed its forecast range</strong>, often by a massive margin.
-                    </p>
-                    <p>
-                        For example, in 2016 both Vanguard and J.P. Morgan projected U.S. stock returns for the next 10 years would be muted. 
-                        Vanguard estimated 3.0%-7.0% nominal return, and J.P. Morgan projected 6.75%. 
-                        The S&P 500 Total Return index subsequently delivered an actual nominal return of <strong>15.57%</strong> annualized.
-                    </p>
-                    <p>
-                        <strong>Why are institutions consistently too conservative?</strong><br>
-                        1. <strong>Valuation-Based Models:</strong> Models like Vanguard's VCMM and GMO's forecasts are heavily driven by starting valuations. During the post-2009 era, high valuations (P/E ratios) constantly triggered warnings of mean reversion. However, valuations continued to expand, and corporate earnings grew faster than historical trends.<br>
-                        2. <strong>Asymmetric Risk:</strong> For asset managers, predicting high returns that fail to materialize carries high career and reputation risk. Conversely, predicting low returns when the market booms leaves clients pleasantly surprised.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="chart-layout" style="margin-top: 30px;">
-            <div class="card chart-card">
-                <h3 style="margin-bottom: 16px; align-self: flex-start; font-size: 1.2rem; font-weight: 600;">Prediction Calibration</h3>
-                <img src="calibration.png" alt="Prediction Calibration Plot">
-            </div>
-            
-            <div class="card analysis-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
-                    <p>
-                        To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>{n} elapsed predictions</strong>:
-                    </p>
-                    
-                    <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-                        <span style="color: var(--blue);">• Pearson Correlation (r):</span> {pearson_r:.4f}<br>
-                        <span style="color: var(--green);">• p-value (slope test):</span> {pearson_p:.6f} ({'Significant' if pearson_p < 0.05 else 'Not Significant'} at 5% level)<br>
-                        <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = {slope:.4f} * Predicted + {intercept:.2f}%<br>
-                        <span style="color: var(--red);">• R-squared (R²):</span> {r_squared:.4f} (Explains {r_squared*100:.1f}% of variance)
-                    </div>
-                </div>
-                
-                <div>
-                    <p>
-                        <strong>Key Statistical Takeaways:</strong><br>
-                        • <strong>Significant Signal:</strong> The p-value of {pearson_p:.4f} is {'below' if pearson_p < 0.05 else 'above'} the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
-                        • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+{intercept:.2f}%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of {intercept:.2f}% due to strong U.S. equity performance.<br>
-                        • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>{mean_bias:+.2f}%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative (underestimating actual returns).
-                    </p>
                 </div>
             </div>
         </div>

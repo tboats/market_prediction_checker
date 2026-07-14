@@ -279,15 +279,10 @@
         }
         
         .chart-layout {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 30px;
-        }
-        
-        @media(min-width: 1024px) {
-            .chart-layout {
-                grid-template-columns: 3fr 2fr;
-            }
+            margin-bottom: 40px;
         }
         
         .chart-card {
@@ -403,6 +398,85 @@
     
         </div>
         
+        <!-- CHART 1: Actual Return vs. Predicted Range (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Actual Return vs. Predicted Range</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="actual_vs_predicted.png" alt="Actual vs Predicted Chart" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="insight-layout">
+                
+        <div class="insight-row">
+            <div class="card insight-card">
+                <div class="insight-label">Closest Forecast</div>
+                <div class="insight-value" style="color: var(--green);">J.P. Morgan (2005)</div>
+                <div class="insight-desc">
+                    Predicted <strong>7.75%</strong> nominal return. 
+                    Actual was <strong>7.61%</strong> (Miss of 0.14%)
+                </div>
+            </div>
+            <div class="card insight-card">
+                <div class="insight-label">Largest Miss</div>
+                <div class="insight-value" style="color: var(--red);">BlackRock (2016)</div>
+                <div class="insight-desc">
+                    Predicted <strong>4.0%</strong> nominal return. 
+                    Actual was <strong>18.93%</strong> (Miss of 14.93%)
+                </div>
+            </div>
+        </div>
+        
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3>The Bearish Bias of Institutional Forecasts</h3>
+                <p style="margin-top: 12px;">
+                    An analysis of the historical record reveals a striking pattern: 
+                    <strong>most evaluated predictions overperformed their forecast ranges</strong>, often by a massive margin.
+                </p>
+                <p style="margin-top: 12px;">
+                    For example, in 2016 both Vanguard and J.P. Morgan projected U.S. stock returns for the next 10 years would be muted. 
+                    Vanguard estimated 3.0%-7.0% nominal return, and J.P. Morgan projected 6.75%. 
+                    The S&P 500 Total Return index subsequently delivered an actual nominal return of <strong>15.57%</strong> annualized.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>Why are institutions consistently too conservative?</strong><br>
+                    1. <strong>Valuation-Based Models:</strong> Models like Vanguard's VCMM and GMO's forecasts are heavily driven by starting valuations. During the post-2009 era, high valuations (P/E ratios) constantly triggered warnings of mean reversion. However, valuations continued to expand, and corporate earnings grew faster than historical trends.<br>
+                    2. <strong>Asymmetric Risk:</strong> For asset managers, predicting high returns that fail to materialize carries high career and reputation risk. Conversely, predicting low returns when the market booms leaves clients pleasantly surprised.
+                </p>
+            </div>
+        </div>
+
+        <!-- CHART 2: Prediction Calibration (Full Width) -->
+        <div class="card full-width-card" style="margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+            <h3 style="font-size: 1.4rem; font-weight: 600; text-align: left; margin-bottom: 5px;">Prediction Calibration & Statistical Correlation</h3>
+            <div class="chart-image-container" style="text-align: center; width: 100%;">
+                <img src="calibration.png" alt="Prediction Calibration Plot" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+            
+            <div class="card analysis-card" style="background-color: #0f172a; border: 1px solid var(--border-color); padding: 24px; border-radius: 8px; margin-top: 10px;">
+                <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
+                <p>
+                    To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>34 elapsed predictions</strong>:
+                </p>
+                
+                <div style="background-color: #1e293b; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 15px; margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
+                    <span style="color: var(--blue);">• Pearson Correlation (r):</span> 0.4205<br>
+                    <span style="color: var(--green);">• p-value (slope test):</span> 0.013286 (Significant at 5% level)<br>
+                    <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = 0.6108 * Predicted + 7.65%<br>
+                    <span style="color: var(--red);">• R-squared (R²):</span> 0.1768 (Explains 17.7% of variance)
+                </div>
+                
+                <p style="margin-top: 12px;">
+                    <strong>Key Statistical Takeaways:</strong><br>
+                    • <strong>Significant Signal:</strong> The p-value of 0.0133 is below the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
+                    • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+7.65%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of 7.65% due to strong U.S. equity performance.<br>
+                    • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>+5.97%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative on average (underestimating actual returns).
+                </p>
+            </div>
+        </div>
+
+        <!-- DATABASE TABLE (NOW BELOW CHARTS) -->
         <div class="main-grid">
             <div class="card table-card">
                 <div class="table-header">
@@ -461,946 +535,6 @@
             </tr>
             
 
-            <tr class="main-row" onclick="toggleDetails('gmo-2009-us-large-cap-7y')">
-                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2009-06-30</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>6.20% <span class="return-type">(real)</span></td>
-                <td><strong>13.11%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+6.91%</td>
-            </tr>
-            <tr id="details-gmo-2009-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 1498.94<br>
-                                • End Price: 3968.21<br>
-                                • Nominal CAGR: 14.92%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 215.69<br>
-                                • End CPI: 241.02<br>
-                                • Total Inflation: 11.74% (CAGR: 1.60%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Post-GFC bottom. GMO projected optimistic real returns.</p>
-                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('vanguard-2011-us-large-cap-10y')">
-                <td><strong><a href="https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2011-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>8.00% to 12.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.50%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+3.50%</td>
-            </tr>
-            <tr id="details-vanguard-2011-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2164.40<br>
-                                • End Price: 7681.01<br>
-                                • Nominal CAGR: 13.50%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 220.22<br>
-                                • End CPI: 261.58<br>
-                                • Total Inflation: 18.78% (CAGR: 1.74%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Early post-GFC recovery. Vanguard expected 8-12% nominal returns.</p>
-                                <a href="https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('gmo-2011-us-large-cap-7y')">
-                <td><strong><a href="https://www.mymoneyblog.com/gmo-asset-return-forecasts-vs-actual-returns-2011-2018.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2011-09-30</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>3.10% <span class="return-type">(real)</span></td>
-                <td><strong>15.14%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+12.04%</td>
-            </tr>
-            <tr id="details-gmo-2011-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 1930.79<br>
-                                • End Price: 5763.42<br>
-                                • Nominal CAGR: 16.91%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 226.89<br>
-                                • End CPI: 252.44<br>
-                                • Total Inflation: 11.26% (CAGR: 1.54%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Mid-2011 correction. GMO forecasted 3.1% real returns.</p>
-                                <a href="https://www.mymoneyblog.com/gmo-asset-return-forecasts-vs-actual-returns-2011-2018.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('vanguard-2016-us-large-cap-10y')">
-                <td><strong><a href="https://www.advisorperspectives.com/articles/2015/12/15/vanguard-s-2016-economic-and-market-outlook" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2016-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>3.00% to 7.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>15.57%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+10.57%</td>
-            </tr>
-            <tr id="details-vanguard-2016-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3631.96<br>
-                                • End Price: 15441.15<br>
-                                • Nominal CAGR: 15.57%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 236.92<br>
-                                • End CPI: 325.25<br>
-                                • Total Inflation: 37.29% (CAGR: 3.22%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Vanguard VCMM median outlook of ~5.1% nominal (expressed as 3-7% range).</p>
-                                <a href="https://www.advisorperspectives.com/articles/2015/12/15/vanguard-s-2016-economic-and-market-outlook" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2016-us-large-cap-10y')">
-                <td><strong><a href="https://www.prnewswire.com/news-releases/jp-morgan-asset-management-releases-2016-long-term-capital-markets-assumptions-presents-views-on-strategic-portfolio-allocations-and-realistic-return-expectations-300168862.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2016-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>6.75% <span class="return-type">(nominal)</span></td>
-                <td><strong>15.57%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+8.82%</td>
-            </tr>
-            <tr id="details-jpmorgan-2016-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3631.96<br>
-                                • End Price: 15441.15<br>
-                                • Nominal CAGR: 15.57%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 236.92<br>
-                                • End CPI: 325.25<br>
-                                • Total Inflation: 37.29% (CAGR: 3.22%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">JPM LTCMA projected 6.75% nominal return.</p>
-                                <a href="https://www.prnewswire.com/news-releases/jp-morgan-asset-management-releases-2016-long-term-capital-markets-assumptions-presents-views-on-strategic-portfolio-allocations-and-realistic-return-expectations-300168862.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('gmo-2015-us-large-cap-7y')">
-                <td><strong><a href="https://www.mymoneyblog.com/gmo-asset-class-return-forecasts-2015.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2015-11-30</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>-2.60% <span class="return-type">(real)</span></td>
-                <td><strong>8.60%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+11.20%</td>
-            </tr>
-            <tr id="details-gmo-2015-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3882.84<br>
-                                • End Price: 8678.00<br>
-                                • Nominal CAGR: 12.17%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 237.34<br>
-                                • End CPI: 297.71<br>
-                                • Total Inflation: 25.44% (CAGR: 3.29%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">GMO projected negative real returns (-2.6%) due to high valuations.</p>
-                                <a href="https://www.mymoneyblog.com/gmo-asset-class-return-forecasts-2015.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row active-prediction" onclick="toggleDetails('vanguard-2026-us-large-cap-10y')">
-                <td><strong><a href="https://finance.yahoo.com/news/vanguard-2026-outlook-raising-alarm-200300505.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2026-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>4.00% to 5.00% <span class="return-type">(nominal)</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">45.48%*</span></td>
-                <td><span class="badge badge-active">Active</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+40.98%*</span></td>
-            </tr>
-            <tr id="details-vanguard-2026-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>Interim S&P 500 Index Details:</strong><br>
-                                • Start Price: 15441.15<br>
-                                • Current Price (as of 2026-05-01): 16935.35<br>
-                                • Interim CAGR: 45.48% (Nominal)
-                            </div>
-                            <div>
-                                <strong>Interim Inflation Details:</strong><br>
-                                • Start CPI: 325.25<br>
-                                • Current CPI (as of 2026-05-01): 335.12<br>
-                                • Inflation CAGR: 12.90% (Total: 3.03%)
-                            </div>
-                            <div>
-                                <strong>Active Prediction Details:</strong><br>
-                                <p class="context-p">Vanguard 2026 Outlook raising alarm, predicting 4-5% over next 10 years.</p>
-                                <a href="https://finance.yahoo.com/news/vanguard-2026-outlook-raising-alarm-200300505.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                                <br><br>
-                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
-                                    Time elapsed: <strong>0.2 / 10.0 years</strong>. 
-                                    Elapses on <strong>2036-01-31</strong>.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('bogle-2011-us-equities-10y')">
-                <td><strong><a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
-                <td>2011-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>7.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.50%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+6.50%</td>
-            </tr>
-            <tr id="details-bogle-2011-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2164.40<br>
-                                • End Price: 7681.01<br>
-                                • Nominal CAGR: 13.50%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 220.22<br>
-                                • End CPI: 261.58<br>
-                                • Total Inflation: 18.78% (CAGR: 1.74%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Jack Bogle predicted a 7.0% nominal return based on 2.0% dividend yield and 5.0% earnings growth.</p>
-                                <a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('bogle-2015-us-equities-10y')">
-                <td><strong><a href="https://www.morningstar.com/articles/720000/bogle-prepare-for-4-stock-returns.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
-                <td>2015-10-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>4.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>14.64%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+10.64%</td>
-            </tr>
-            <tr id="details-bogle-2015-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3871.33<br>
-                                • End Price: 15173.95<br>
-                                • Nominal CAGR: 14.64%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 237.84<br>
-                                • End CPI: 324.12<br>
-                                • Total Inflation: 36.28% (CAGR: 3.14%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Jack Bogle warned investors to prepare for lower returns (~4.0% nominal) due to multiple contraction.</p>
-                                <a href="https://www.morningstar.com/articles/720000/bogle-prepare-for-4-stock-returns.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row active-prediction" onclick="toggleDetails('bogle-2016-us-equities-10y')">
-                <td><strong><a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
-                <td>2016-11-30</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>4.00% to 6.00% <span class="return-type">(nominal)</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">15.97%*</span></td>
-                <td><span class="badge badge-active">Active</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+10.97%*</span></td>
-            </tr>
-            <tr id="details-bogle-2016-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>Interim S&P 500 Index Details:</strong><br>
-                                • Start Price: 4195.73<br>
-                                • Current Price (as of 2026-05-01): 16935.35<br>
-                                • Interim CAGR: 15.97% (Nominal)
-                            </div>
-                            <div>
-                                <strong>Interim Inflation Details:</strong><br>
-                                • Start CPI: 241.35<br>
-                                • Current CPI (as of 2026-05-01): 335.12<br>
-                                • Inflation CAGR: 3.55% (Total: 38.85%)
-                            </div>
-                            <div>
-                                <strong>Active Prediction Details:</strong><br>
-                                <p class="context-p">Bogle projected 4-6% nominal annualized returns over the next 10 years.</p>
-                                <a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" class="source-link">Read Source Article ↗</a>
-                                <br><br>
-                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
-                                    Time elapsed: <strong>9.4 / 10.0 years</strong>. 
-                                    Elapses on <strong>2026-11-30</strong>.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('research-affiliates-2015-us-large-cap-10y')">
-                <td><strong><a href="https://www.researchaffiliates.com/aai-hub" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Research Affiliates</a></strong></td>
-                <td>2015-09-30</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>1.10% <span class="return-type">(real)</span></td>
-                <td><strong>11.77%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+10.67%</td>
-            </tr>
-            <tr id="details-research-affiliates-2015-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3570.17<br>
-                                • End Price: 14826.80<br>
-                                • Nominal CAGR: 15.30%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 237.94<br>
-                                • End CPI: 324.80<br>
-                                • Total Inflation: 36.50% (CAGR: 3.16%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Research Affiliates expected a 1.1% real return over the next 10 years.</p>
-                                <a href="https://www.researchaffiliates.com/aai-hub" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('research-affiliates-2016-us-large-cap-10y')">
-                <td><strong><a href="https://www.researchaffiliates.com/aai-hub" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Research Affiliates</a></strong></td>
-                <td>2016-04-30</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>0.00% to 1.00% <span class="return-type">(real)</span></td>
-                <td><strong>11.51%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+11.01%</td>
-            </tr>
-            <tr id="details-research-affiliates-2016-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3888.13<br>
-                                • End Price: 16088.56<br>
-                                • Nominal CAGR: 15.26%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 239.26<br>
-                                • End CPI: 333.02<br>
-                                • Total Inflation: 39.19% (CAGR: 3.36%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Research Affiliates expected U.S. stocks to deliver real returns between 0.0% and 1.0%.</p>
-                                <a href="https://www.researchaffiliates.com/aai-hub" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('blackrock-2016-us-equities-5y')">
-                <td><strong><a href="https://www.blackrock.com/institutions/en-us/insights/charts/capital-market-assumptions" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">BlackRock</a></strong></td>
-                <td>2016-10-31</td>
-                <td>5 Years</td>
-                <td>US Equities</td>
-                <td>4.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>18.93%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+14.93%</td>
-            </tr>
-            <tr id="details-blackrock-2016-us-equities-5y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 4045.89<br>
-                                • End Price: 9625.02<br>
-                                • Nominal CAGR: 18.93%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 241.73<br>
-                                • End CPI: 276.59<br>
-                                • Total Inflation: 14.42% (CAGR: 2.73%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">BlackRock projected U.S. Equities nominal returns of 4.0% over the next 5 years.</p>
-                                <a href="https://www.blackrock.com/institutions/en-us/insights/charts/capital-market-assumptions" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('vanguard-2013-us-equities-10y')">
-                <td><strong><a href="https://www.advisorperspectives.com/articles/2012/12/18/vanguard-economic-and-investment-outlook-2013" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2013-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>6.00% to 9.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>12.68%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.18%</td>
-            </tr>
-            <tr id="details-vanguard-2013-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2634.16<br>
-                                • End Price: 8691.88<br>
-                                • Nominal CAGR: 12.68%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 230.28<br>
-                                • End CPI: 299.17<br>
-                                • Total Inflation: 29.92% (CAGR: 2.65%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.</p>
-                                <a href="https://www.advisorperspectives.com/articles/2012/12/18/vanguard-economic-and-investment-outlook-2013" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('vanguard-2014-us-equities-10y')">
-                <td><strong><a href="https://www.advisorperspectives.com/articles/2013/12/17/vanguard-economic-and-investment-outlook-2014" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2014-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>6.00% to 9.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>12.62%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.12%</td>
-            </tr>
-            <tr id="details-vanguard-2014-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3200.95<br>
-                                • End Price: 10501.38<br>
-                                • Nominal CAGR: 12.62%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.92<br>
-                                • End CPI: 308.42<br>
-                                • Total Inflation: 31.85% (CAGR: 2.80%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.</p>
-                                <a href="https://www.advisorperspectives.com/articles/2013/12/17/vanguard-economic-and-investment-outlook-2014" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('vanguard-2015-us-equities-10y')">
-                <td><strong><a href="https://www.advisorperspectives.com/articles/2014/12/16/vanguard-economic-and-investment-outlook-2015" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
-                <td>2015-01-31</td>
-                <td>10 Years</td>
-                <td>US Equities</td>
-                <td>5.00% to 8.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.76%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+7.26%</td>
-            </tr>
-            <tr id="details-vanguard-2015-us-equities-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3656.28<br>
-                                • End Price: 13271.38<br>
-                                • Nominal CAGR: 13.76%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.71<br>
-                                • End CPI: 317.67<br>
-                                • Total Inflation: 35.93% (CAGR: 3.12%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Vanguard projected U.S. Equities return in the 5.0%-8.0% nominal range.</p>
-                                <a href="https://www.advisorperspectives.com/articles/2014/12/16/vanguard-economic-and-investment-outlook-2015" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2011-us-large-cap-10y')">
-                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2011-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>7.75% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.50%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.75%</td>
-            </tr>
-            <tr id="details-jpmorgan-2011-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2164.40<br>
-                                • End Price: 7681.01<br>
-                                • Nominal CAGR: 13.50%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 220.22<br>
-                                • End CPI: 261.58<br>
-                                • Total Inflation: 18.78% (CAGR: 1.74%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.75%.</p>
-                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2013-us-large-cap-10y')">
-                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2013-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>7.50% <span class="return-type">(nominal)</span></td>
-                <td><strong>12.68%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.18%</td>
-            </tr>
-            <tr id="details-jpmorgan-2013-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2634.16<br>
-                                • End Price: 8691.88<br>
-                                • Nominal CAGR: 12.68%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 230.28<br>
-                                • End CPI: 299.17<br>
-                                • Total Inflation: 29.92% (CAGR: 2.65%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.50%.</p>
-                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2014-us-large-cap-10y')">
-                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2014-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>7.25% <span class="return-type">(nominal)</span></td>
-                <td><strong>12.62%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.37%</td>
-            </tr>
-            <tr id="details-jpmorgan-2014-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3200.95<br>
-                                • End Price: 10501.38<br>
-                                • Nominal CAGR: 12.62%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.92<br>
-                                • End CPI: 308.42<br>
-                                • Total Inflation: 31.85% (CAGR: 2.80%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.25%.</p>
-                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2015-us-large-cap-10y')">
-                <td><strong><a href="https://www.prnewswire.com/news-releases/is-this-the-road-to-normalization-launching-2015-market-assumptions-by-jp-morgan-asset-management-281618271.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2015-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>7.00% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.76%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+6.76%</td>
-            </tr>
-            <tr id="details-jpmorgan-2015-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3656.28<br>
-                                • End Price: 13271.38<br>
-                                • Nominal CAGR: 13.76%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.71<br>
-                                • End CPI: 317.67<br>
-                                • Total Inflation: 35.93% (CAGR: 3.12%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.00%.</p>
-                                <a href="https://www.prnewswire.com/news-releases/is-this-the-road-to-normalization-launching-2015-market-assumptions-by-jp-morgan-asset-management-281618271.html" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('gmo-2012-us-large-cap-7y')">
-                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2012-12-31</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>-1.10% <span class="return-type">(real)</span></td>
-                <td><strong>12.90%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+14.00%</td>
-            </tr>
-            <tr id="details-gmo-2012-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2504.44<br>
-                                • End Price: 6553.57<br>
-                                • Nominal CAGR: 14.73%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 229.60<br>
-                                • End CPI: 256.97<br>
-                                • Total Inflation: 11.92% (CAGR: 1.62%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">GMO 7-year real return forecast was -1.1% annually.</p>
-                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('gmo-2013-us-large-cap-7y')">
-                <td><strong><a href="http://www.amarginofsafety.com/2013/12/03/gmo-7-year-asset-class-forecast-november-2013/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2013-11-30</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>-1.30% <span class="return-type">(real)</span></td>
-                <td><strong>10.95%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+12.25%</td>
-            </tr>
-            <tr id="details-gmo-2013-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3233.72<br>
-                                • End Price: 7472.06<br>
-                                • Nominal CAGR: 12.71%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.07<br>
-                                • End CPI: 260.23<br>
-                                • Total Inflation: 11.65% (CAGR: 1.59%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">GMO 7-year real return forecast was -1.3% annually.</p>
-                                <a href="http://www.amarginofsafety.com/2013/12/03/gmo-7-year-asset-class-forecast-november-2013/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('gmo-2014-us-large-cap-7y')">
-                <td><strong><a href="https://www.gmo.com/globalassets/articles/quarterly-letter/2014/bi_isthispurgatoryorhell_qtlyletter_3q2014.pdf" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2014-12-31</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>-1.50% <span class="return-type">(real)</span></td>
-                <td><strong>12.15%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--red); font-weight: 600;">+13.65%</td>
-            </tr>
-            <tr id="details-gmo-2014-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 3769.44<br>
-                                • End Price: 9986.70<br>
-                                • Nominal CAGR: 14.93%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 234.81<br>
-                                • End CPI: 278.80<br>
-                                • Total Inflation: 18.73% (CAGR: 2.48%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">GMO 7-year real return forecast was -1.5% annually.</p>
-                                <a href="https://www.gmo.com/globalassets/articles/quarterly-letter/2014/bi_isthispurgatoryorhell_qtlyletter_3q2014.pdf" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('aqr-2013-us-large-cap-10y')">
-                <td><strong><a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">AQR</a></strong></td>
-                <td>2013-06-30</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>5.20% <span class="return-type">(nominal)</span></td>
-                <td><strong>12.86%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+7.66%</td>
-            </tr>
-            <tr id="details-aqr-2013-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2850.66<br>
-                                • End Price: 9559.67<br>
-                                • Nominal CAGR: 12.86%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 233.50<br>
-                                • End CPI: 305.11<br>
-                                • Total Inflation: 30.67% (CAGR: 2.71%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">AQR projected nominal return of 5.2% (real 3.0% + 2.2% inflation).</p>
-                                <a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row active-prediction" onclick="toggleDetails('goldman-sachs-2020-us-large-cap-10y')">
-                <td><strong><a href="https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Goldman Sachs</a></strong></td>
-                <td>2020-06-30</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>6.00% <span class="return-type">(nominal)</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">18.30%*</span></td>
-                <td><span class="badge badge-active">Active</span></td>
-                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+12.30%*</span></td>
-            </tr>
-            <tr id="details-goldman-sachs-2020-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>Interim S&P 500 Index Details:</strong><br>
-                                • Start Price: 6351.67<br>
-                                • Current Price (as of 2026-05-01): 16935.35<br>
-                                • Interim CAGR: 18.30% (Nominal)
-                            </div>
-                            <div>
-                                <strong>Interim Inflation Details:</strong><br>
-                                • Start CPI: 257.80<br>
-                                • Current CPI (as of 2026-05-01): 335.12<br>
-                                • Inflation CAGR: 4.60% (Total: 29.99%)
-                            </div>
-                            <div>
-                                <strong>Active Prediction Details:</strong><br>
-                                <p class="context-p">Goldman Sachs projected a 6.0% nominal return for S&P 500.</p>
-                                <a href="https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167" target="_blank" class="source-link">Read Source Article ↗</a>
-                                <br><br>
-                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
-                                    Time elapsed: <strong>5.8 / 10.0 years</strong>. 
-                                    Elapses on <strong>2030-06-30</strong>.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
             <tr class="main-row" onclick="toggleDetails('bogle-2000-us-equities-10y')">
                 <td><strong><a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
                 <td>2000-06-30</td>
@@ -1431,6 +565,43 @@
                                 <strong>Context / Source Note:</strong><br>
                                 <p class="context-p">Bogle Expected Return formula forecast for the 'lost decade'.</p>
                                 <a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('aqr-2001-us-large-cap-10y')">
+                <td><strong><a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">AQR</a></strong></td>
+                <td>2001-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>0.50% to 1.50% <span class="return-type">(real)</span></td>
+                <td><strong>-1.00%</strong></td>
+                <td><span class="badge badge-underperformed">Underperformed</span></td>
+                <td style="color: var(--orange);">-2.00%</td>
+            </tr>
+            <tr id="details-aqr-2001-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 1902.55<br>
+                                • End Price: 2164.40<br>
+                                • Nominal CAGR: 1.30%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 175.10<br>
+                                • End CPI: 220.22<br>
+                                • Total Inflation: 25.77% (CAGR: 2.32%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Cliff Asness predicted low real returns due to high starting P/E.</p>
+                                <a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" class="source-link">Read Source Article ↗</a>
                             </div>
                         </div>
                     </div>
@@ -1549,43 +720,6 @@
             </tr>
             
 
-            <tr class="main-row" onclick="toggleDetails('gmo-2007-us-large-cap-7y')">
-                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
-                <td>2007-12-31</td>
-                <td>7 Years</td>
-                <td>US Large Cap</td>
-                <td>-1.50% <span class="return-type">(real)</span></td>
-                <td><strong>5.58%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+7.08%</td>
-            </tr>
-            <tr id="details-gmo-2007-us-large-cap-7y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 2306.23<br>
-                                • End Price: 3769.44<br>
-                                • Nominal CAGR: 7.27%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 210.04<br>
-                                • End CPI: 234.81<br>
-                                • Total Inflation: 11.80% (CAGR: 1.61%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Pre-GFC market peak. GMO projected negative real returns.</p>
-                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
             <tr class="main-row" onclick="toggleDetails('jpmorgan-2005-us-large-cap-10y')">
                 <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
                 <td>2005-01-31</td>
@@ -1623,6 +757,43 @@
             </tr>
             
 
+            <tr class="main-row" onclick="toggleDetails('gmo-2007-us-large-cap-7y')">
+                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2007-12-31</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>-1.50% <span class="return-type">(real)</span></td>
+                <td><strong>5.58%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+7.08%</td>
+            </tr>
+            <tr id="details-gmo-2007-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2306.23<br>
+                                • End Price: 3769.44<br>
+                                • Nominal CAGR: 7.27%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 210.04<br>
+                                • End CPI: 234.81<br>
+                                • Total Inflation: 11.80% (CAGR: 1.61%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Pre-GFC market peak. GMO projected negative real returns.</p>
+                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
             <tr class="main-row" onclick="toggleDetails('jpmorgan-2008-us-large-cap-10y')">
                 <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
                 <td>2008-01-31</td>
@@ -1652,43 +823,6 @@
                             <div>
                                 <strong>Context / Source Note:</strong><br>
                                 <p class="context-p">JPM LTCMA projected 7.75% nominal return.</p>
-                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            
-
-            <tr class="main-row" onclick="toggleDetails('jpmorgan-2010-us-large-cap-10y')">
-                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
-                <td>2010-01-31</td>
-                <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>8.25% <span class="return-type">(nominal)</span></td>
-                <td><strong>13.97%</strong></td>
-                <td><span class="badge badge-overperformed">Overperformed</span></td>
-                <td style="color: var(--orange);">+5.72%</td>
-            </tr>
-            <tr id="details-jpmorgan-2010-us-large-cap-10y" class="detail-row" style="display: none;">
-                <td colspan="8">
-                    <div class="detail-content">
-                        <div class="detail-grid">
-                            <div>
-                                <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 1771.40<br>
-                                • End Price: 6551.00<br>
-                                • Nominal CAGR: 13.97%
-                            </div>
-                            <div>
-                                <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 216.69<br>
-                                • End CPI: 257.97<br>
-                                • Total Inflation: 19.05% (CAGR: 1.76%)
-                            </div>
-                            <div>
-                                <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Post-GFC Assumptions. JPM projected 8.25% nominal return.</p>
                                 <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
                             </div>
                         </div>
@@ -1734,6 +868,80 @@
             </tr>
             
 
+            <tr class="main-row" onclick="toggleDetails('gmo-2009-us-large-cap-7y')">
+                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2009-06-30</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>6.20% <span class="return-type">(real)</span></td>
+                <td><strong>13.11%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+6.91%</td>
+            </tr>
+            <tr id="details-gmo-2009-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 1498.94<br>
+                                • End Price: 3968.21<br>
+                                • Nominal CAGR: 14.92%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 215.69<br>
+                                • End CPI: 241.02<br>
+                                • Total Inflation: 11.74% (CAGR: 1.60%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Post-GFC bottom. GMO projected optimistic real returns.</p>
+                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2010-us-large-cap-10y')">
+                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2010-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>8.25% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.97%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.72%</td>
+            </tr>
+            <tr id="details-jpmorgan-2010-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 1771.40<br>
+                                • End Price: 6551.00<br>
+                                • Nominal CAGR: 13.97%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 216.69<br>
+                                • End CPI: 257.97<br>
+                                • Total Inflation: 19.05% (CAGR: 1.76%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Post-GFC Assumptions. JPM projected 8.25% nominal return.</p>
+                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
             <tr class="main-row" onclick="toggleDetails('vanguard-2010-us-large-cap-10y')">
                 <td><strong><a href="https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
                 <td>2010-01-31</td>
@@ -1771,36 +979,902 @@
             </tr>
             
 
-            <tr class="main-row" onclick="toggleDetails('aqr-2001-us-large-cap-10y')">
-                <td><strong><a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">AQR</a></strong></td>
-                <td>2001-01-31</td>
+            <tr class="main-row" onclick="toggleDetails('vanguard-2011-us-large-cap-10y')">
+                <td><strong><a href="https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2011-01-31</td>
                 <td>10 Years</td>
-                <td>US Large Cap</td>
-                <td>0.50% to 1.50% <span class="return-type">(real)</span></td>
-                <td><strong>-1.00%</strong></td>
-                <td><span class="badge badge-underperformed">Underperformed</span></td>
-                <td style="color: var(--orange);">-2.00%</td>
+                <td>US Equities</td>
+                <td>8.00% to 12.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.50%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+3.50%</td>
             </tr>
-            <tr id="details-aqr-2001-us-large-cap-10y" class="detail-row" style="display: none;">
+            <tr id="details-vanguard-2011-us-large-cap-10y" class="detail-row" style="display: none;">
                 <td colspan="8">
                     <div class="detail-content">
                         <div class="detail-grid">
                             <div>
                                 <strong>S&P 500 Total Return Index Details:</strong><br>
-                                • Start Price: 1902.55<br>
-                                • End Price: 2164.40<br>
-                                • Nominal CAGR: 1.30%
+                                • Start Price: 2164.40<br>
+                                • End Price: 7681.01<br>
+                                • Nominal CAGR: 13.50%
                             </div>
                             <div>
                                 <strong>Inflation Details (U.S. CPI):</strong><br>
-                                • Start CPI: 175.10<br>
-                                • End CPI: 220.22<br>
-                                • Total Inflation: 25.77% (CAGR: 2.32%)
+                                • Start CPI: 220.22<br>
+                                • End CPI: 261.58<br>
+                                • Total Inflation: 18.78% (CAGR: 1.74%)
                             </div>
                             <div>
                                 <strong>Context / Source Note:</strong><br>
-                                <p class="context-p">Cliff Asness predicted low real returns due to high starting P/E.</p>
+                                <p class="context-p">Early post-GFC recovery. Vanguard expected 8-12% nominal returns.</p>
+                                <a href="https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('bogle-2011-us-equities-10y')">
+                <td><strong><a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
+                <td>2011-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>7.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.50%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+6.50%</td>
+            </tr>
+            <tr id="details-bogle-2011-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2164.40<br>
+                                • End Price: 7681.01<br>
+                                • Nominal CAGR: 13.50%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 220.22<br>
+                                • End CPI: 261.58<br>
+                                • Total Inflation: 18.78% (CAGR: 1.74%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Jack Bogle predicted a 7.0% nominal return based on 2.0% dividend yield and 5.0% earnings growth.</p>
+                                <a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2011-us-large-cap-10y')">
+                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2011-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>7.75% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.50%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.75%</td>
+            </tr>
+            <tr id="details-jpmorgan-2011-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2164.40<br>
+                                • End Price: 7681.01<br>
+                                • Nominal CAGR: 13.50%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 220.22<br>
+                                • End CPI: 261.58<br>
+                                • Total Inflation: 18.78% (CAGR: 1.74%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.75%.</p>
+                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('gmo-2011-us-large-cap-7y')">
+                <td><strong><a href="https://www.mymoneyblog.com/gmo-asset-return-forecasts-vs-actual-returns-2011-2018.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2011-09-30</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>3.10% <span class="return-type">(real)</span></td>
+                <td><strong>15.14%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+12.04%</td>
+            </tr>
+            <tr id="details-gmo-2011-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 1930.79<br>
+                                • End Price: 5763.42<br>
+                                • Nominal CAGR: 16.91%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 226.89<br>
+                                • End CPI: 252.44<br>
+                                • Total Inflation: 11.26% (CAGR: 1.54%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Mid-2011 correction. GMO forecasted 3.1% real returns.</p>
+                                <a href="https://www.mymoneyblog.com/gmo-asset-return-forecasts-vs-actual-returns-2011-2018.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('gmo-2012-us-large-cap-7y')">
+                <td><strong><a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2012-12-31</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>-1.10% <span class="return-type">(real)</span></td>
+                <td><strong>12.90%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+14.00%</td>
+            </tr>
+            <tr id="details-gmo-2012-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2504.44<br>
+                                • End Price: 6553.57<br>
+                                • Nominal CAGR: 14.73%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 229.60<br>
+                                • End CPI: 256.97<br>
+                                • Total Inflation: 11.92% (CAGR: 1.62%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">GMO 7-year real return forecast was -1.1% annually.</p>
+                                <a href="https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('vanguard-2013-us-equities-10y')">
+                <td><strong><a href="https://www.advisorperspectives.com/articles/2012/12/18/vanguard-economic-and-investment-outlook-2013" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2013-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>6.00% to 9.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>12.68%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.18%</td>
+            </tr>
+            <tr id="details-vanguard-2013-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2634.16<br>
+                                • End Price: 8691.88<br>
+                                • Nominal CAGR: 12.68%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 230.28<br>
+                                • End CPI: 299.17<br>
+                                • Total Inflation: 29.92% (CAGR: 2.65%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.</p>
+                                <a href="https://www.advisorperspectives.com/articles/2012/12/18/vanguard-economic-and-investment-outlook-2013" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2013-us-large-cap-10y')">
+                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2013-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>7.50% <span class="return-type">(nominal)</span></td>
+                <td><strong>12.68%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.18%</td>
+            </tr>
+            <tr id="details-jpmorgan-2013-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2634.16<br>
+                                • End Price: 8691.88<br>
+                                • Nominal CAGR: 12.68%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 230.28<br>
+                                • End CPI: 299.17<br>
+                                • Total Inflation: 29.92% (CAGR: 2.65%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.50%.</p>
+                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('aqr-2013-us-large-cap-10y')">
+                <td><strong><a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">AQR</a></strong></td>
+                <td>2013-06-30</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>5.20% <span class="return-type">(nominal)</span></td>
+                <td><strong>12.86%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+7.66%</td>
+            </tr>
+            <tr id="details-aqr-2013-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 2850.66<br>
+                                • End Price: 9559.67<br>
+                                • Nominal CAGR: 12.86%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.50<br>
+                                • End CPI: 305.11<br>
+                                • Total Inflation: 30.67% (CAGR: 2.71%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">AQR projected nominal return of 5.2% (real 3.0% + 2.2% inflation).</p>
                                 <a href="https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('gmo-2013-us-large-cap-7y')">
+                <td><strong><a href="http://www.amarginofsafety.com/2013/12/03/gmo-7-year-asset-class-forecast-november-2013/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2013-11-30</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>-1.30% <span class="return-type">(real)</span></td>
+                <td><strong>10.95%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+12.25%</td>
+            </tr>
+            <tr id="details-gmo-2013-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3233.72<br>
+                                • End Price: 7472.06<br>
+                                • Nominal CAGR: 12.71%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.07<br>
+                                • End CPI: 260.23<br>
+                                • Total Inflation: 11.65% (CAGR: 1.59%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">GMO 7-year real return forecast was -1.3% annually.</p>
+                                <a href="http://www.amarginofsafety.com/2013/12/03/gmo-7-year-asset-class-forecast-november-2013/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('vanguard-2014-us-equities-10y')">
+                <td><strong><a href="https://www.advisorperspectives.com/articles/2013/12/17/vanguard-economic-and-investment-outlook-2014" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2014-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>6.00% to 9.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>12.62%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.12%</td>
+            </tr>
+            <tr id="details-vanguard-2014-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3200.95<br>
+                                • End Price: 10501.38<br>
+                                • Nominal CAGR: 12.62%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.92<br>
+                                • End CPI: 308.42<br>
+                                • Total Inflation: 31.85% (CAGR: 2.80%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.</p>
+                                <a href="https://www.advisorperspectives.com/articles/2013/12/17/vanguard-economic-and-investment-outlook-2014" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2014-us-large-cap-10y')">
+                <td><strong><a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2014-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>7.25% <span class="return-type">(nominal)</span></td>
+                <td><strong>12.62%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+5.37%</td>
+            </tr>
+            <tr id="details-jpmorgan-2014-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3200.95<br>
+                                • End Price: 10501.38<br>
+                                • Nominal CAGR: 12.62%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.92<br>
+                                • End CPI: 308.42<br>
+                                • Total Inflation: 31.85% (CAGR: 2.80%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.25%.</p>
+                                <a href="https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('gmo-2014-us-large-cap-7y')">
+                <td><strong><a href="https://www.gmo.com/globalassets/articles/quarterly-letter/2014/bi_isthispurgatoryorhell_qtlyletter_3q2014.pdf" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2014-12-31</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>-1.50% <span class="return-type">(real)</span></td>
+                <td><strong>12.15%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+13.65%</td>
+            </tr>
+            <tr id="details-gmo-2014-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3769.44<br>
+                                • End Price: 9986.70<br>
+                                • Nominal CAGR: 14.93%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 234.81<br>
+                                • End CPI: 278.80<br>
+                                • Total Inflation: 18.73% (CAGR: 2.48%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">GMO 7-year real return forecast was -1.5% annually.</p>
+                                <a href="https://www.gmo.com/globalassets/articles/quarterly-letter/2014/bi_isthispurgatoryorhell_qtlyletter_3q2014.pdf" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('vanguard-2015-us-equities-10y')">
+                <td><strong><a href="https://www.advisorperspectives.com/articles/2014/12/16/vanguard-economic-and-investment-outlook-2015" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2015-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>5.00% to 8.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.76%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+7.26%</td>
+            </tr>
+            <tr id="details-vanguard-2015-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3656.28<br>
+                                • End Price: 13271.38<br>
+                                • Nominal CAGR: 13.76%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.71<br>
+                                • End CPI: 317.67<br>
+                                • Total Inflation: 35.93% (CAGR: 3.12%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Vanguard projected U.S. Equities return in the 5.0%-8.0% nominal range.</p>
+                                <a href="https://www.advisorperspectives.com/articles/2014/12/16/vanguard-economic-and-investment-outlook-2015" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2015-us-large-cap-10y')">
+                <td><strong><a href="https://www.prnewswire.com/news-releases/is-this-the-road-to-normalization-launching-2015-market-assumptions-by-jp-morgan-asset-management-281618271.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2015-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>7.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>13.76%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--orange);">+6.76%</td>
+            </tr>
+            <tr id="details-jpmorgan-2015-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3656.28<br>
+                                • End Price: 13271.38<br>
+                                • Nominal CAGR: 13.76%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 233.71<br>
+                                • End CPI: 317.67<br>
+                                • Total Inflation: 35.93% (CAGR: 3.12%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">JPM LTCMA projected U.S. Large Cap nominal return at 7.00%.</p>
+                                <a href="https://www.prnewswire.com/news-releases/is-this-the-road-to-normalization-launching-2015-market-assumptions-by-jp-morgan-asset-management-281618271.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('research-affiliates-2015-us-large-cap-10y')">
+                <td><strong><a href="https://www.researchaffiliates.com/aai-hub" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Research Affiliates</a></strong></td>
+                <td>2015-09-30</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>1.10% <span class="return-type">(real)</span></td>
+                <td><strong>11.77%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+10.67%</td>
+            </tr>
+            <tr id="details-research-affiliates-2015-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3570.17<br>
+                                • End Price: 14826.80<br>
+                                • Nominal CAGR: 15.30%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 237.94<br>
+                                • End CPI: 324.80<br>
+                                • Total Inflation: 36.50% (CAGR: 3.16%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Research Affiliates expected a 1.1% real return over the next 10 years.</p>
+                                <a href="https://www.researchaffiliates.com/aai-hub" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('bogle-2015-us-equities-10y')">
+                <td><strong><a href="https://www.morningstar.com/articles/720000/bogle-prepare-for-4-stock-returns.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
+                <td>2015-10-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>4.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>14.64%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+10.64%</td>
+            </tr>
+            <tr id="details-bogle-2015-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3871.33<br>
+                                • End Price: 15173.95<br>
+                                • Nominal CAGR: 14.64%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 237.84<br>
+                                • End CPI: 324.12<br>
+                                • Total Inflation: 36.28% (CAGR: 3.14%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Jack Bogle warned investors to prepare for lower returns (~4.0% nominal) due to multiple contraction.</p>
+                                <a href="https://www.morningstar.com/articles/720000/bogle-prepare-for-4-stock-returns.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('gmo-2015-us-large-cap-7y')">
+                <td><strong><a href="https://www.mymoneyblog.com/gmo-asset-class-return-forecasts-2015.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">GMO</a></strong></td>
+                <td>2015-11-30</td>
+                <td>7 Years</td>
+                <td>US Large Cap</td>
+                <td>-2.60% <span class="return-type">(real)</span></td>
+                <td><strong>8.60%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+11.20%</td>
+            </tr>
+            <tr id="details-gmo-2015-us-large-cap-7y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3882.84<br>
+                                • End Price: 8678.00<br>
+                                • Nominal CAGR: 12.17%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 237.34<br>
+                                • End CPI: 297.71<br>
+                                • Total Inflation: 25.44% (CAGR: 3.29%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">GMO projected negative real returns (-2.6%) due to high valuations.</p>
+                                <a href="https://www.mymoneyblog.com/gmo-asset-class-return-forecasts-2015.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('vanguard-2016-us-large-cap-10y')">
+                <td><strong><a href="https://www.advisorperspectives.com/articles/2015/12/15/vanguard-s-2016-economic-and-market-outlook" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2016-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>3.00% to 7.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>15.57%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+10.57%</td>
+            </tr>
+            <tr id="details-vanguard-2016-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3631.96<br>
+                                • End Price: 15441.15<br>
+                                • Nominal CAGR: 15.57%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 236.92<br>
+                                • End CPI: 325.25<br>
+                                • Total Inflation: 37.29% (CAGR: 3.22%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Vanguard VCMM median outlook of ~5.1% nominal (expressed as 3-7% range).</p>
+                                <a href="https://www.advisorperspectives.com/articles/2015/12/15/vanguard-s-2016-economic-and-market-outlook" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('jpmorgan-2016-us-large-cap-10y')">
+                <td><strong><a href="https://www.prnewswire.com/news-releases/jp-morgan-asset-management-releases-2016-long-term-capital-markets-assumptions-presents-views-on-strategic-portfolio-allocations-and-realistic-return-expectations-300168862.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">J.P. Morgan</a></strong></td>
+                <td>2016-01-31</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>6.75% <span class="return-type">(nominal)</span></td>
+                <td><strong>15.57%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+8.82%</td>
+            </tr>
+            <tr id="details-jpmorgan-2016-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3631.96<br>
+                                • End Price: 15441.15<br>
+                                • Nominal CAGR: 15.57%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 236.92<br>
+                                • End CPI: 325.25<br>
+                                • Total Inflation: 37.29% (CAGR: 3.22%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">JPM LTCMA projected 6.75% nominal return.</p>
+                                <a href="https://www.prnewswire.com/news-releases/jp-morgan-asset-management-releases-2016-long-term-capital-markets-assumptions-presents-views-on-strategic-portfolio-allocations-and-realistic-return-expectations-300168862.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('research-affiliates-2016-us-large-cap-10y')">
+                <td><strong><a href="https://www.researchaffiliates.com/aai-hub" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Research Affiliates</a></strong></td>
+                <td>2016-04-30</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>0.00% to 1.00% <span class="return-type">(real)</span></td>
+                <td><strong>11.51%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+11.01%</td>
+            </tr>
+            <tr id="details-research-affiliates-2016-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 3888.13<br>
+                                • End Price: 16088.56<br>
+                                • Nominal CAGR: 15.26%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 239.26<br>
+                                • End CPI: 333.02<br>
+                                • Total Inflation: 39.19% (CAGR: 3.36%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">Research Affiliates expected U.S. stocks to deliver real returns between 0.0% and 1.0%.</p>
+                                <a href="https://www.researchaffiliates.com/aai-hub" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row" onclick="toggleDetails('blackrock-2016-us-equities-5y')">
+                <td><strong><a href="https://www.blackrock.com/institutions/en-us/insights/charts/capital-market-assumptions" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">BlackRock</a></strong></td>
+                <td>2016-10-31</td>
+                <td>5 Years</td>
+                <td>US Equities</td>
+                <td>4.00% <span class="return-type">(nominal)</span></td>
+                <td><strong>18.93%</strong></td>
+                <td><span class="badge badge-overperformed">Overperformed</span></td>
+                <td style="color: var(--red); font-weight: 600;">+14.93%</td>
+            </tr>
+            <tr id="details-blackrock-2016-us-equities-5y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>S&P 500 Total Return Index Details:</strong><br>
+                                • Start Price: 4045.89<br>
+                                • End Price: 9625.02<br>
+                                • Nominal CAGR: 18.93%
+                            </div>
+                            <div>
+                                <strong>Inflation Details (U.S. CPI):</strong><br>
+                                • Start CPI: 241.73<br>
+                                • End CPI: 276.59<br>
+                                • Total Inflation: 14.42% (CAGR: 2.73%)
+                            </div>
+                            <div>
+                                <strong>Context / Source Note:</strong><br>
+                                <p class="context-p">BlackRock projected U.S. Equities nominal returns of 4.0% over the next 5 years.</p>
+                                <a href="https://www.blackrock.com/institutions/en-us/insights/charts/capital-market-assumptions" target="_blank" class="source-link">Read Source Article ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row active-prediction" onclick="toggleDetails('bogle-2016-us-equities-10y')">
+                <td><strong><a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Jack Bogle</a></strong></td>
+                <td>2016-11-30</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>4.00% to 6.00% <span class="return-type">(nominal)</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">15.97%*</span></td>
+                <td><span class="badge badge-active">Active</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+10.97%*</span></td>
+            </tr>
+            <tr id="details-bogle-2016-us-equities-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>Interim S&P 500 Index Details:</strong><br>
+                                • Start Price: 4195.73<br>
+                                • Current Price (as of 2026-05-01): 16935.35<br>
+                                • Interim CAGR: 15.97% (Nominal)
+                            </div>
+                            <div>
+                                <strong>Interim Inflation Details:</strong><br>
+                                • Start CPI: 241.35<br>
+                                • Current CPI (as of 2026-05-01): 335.12<br>
+                                • Inflation CAGR: 3.55% (Total: 38.85%)
+                            </div>
+                            <div>
+                                <strong>Active Prediction Details:</strong><br>
+                                <p class="context-p">Bogle projected 4-6% nominal annualized returns over the next 10 years.</p>
+                                <a href="https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/" target="_blank" class="source-link">Read Source Article ↗</a>
+                                <br><br>
+                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
+                                    Time elapsed: <strong>9.4 / 10.0 years</strong>. 
+                                    Elapses on <strong>2026-11-30</strong>.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row active-prediction" onclick="toggleDetails('goldman-sachs-2020-us-large-cap-10y')">
+                <td><strong><a href="https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Goldman Sachs</a></strong></td>
+                <td>2020-06-30</td>
+                <td>10 Years</td>
+                <td>US Large Cap</td>
+                <td>6.00% <span class="return-type">(nominal)</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">18.30%*</span></td>
+                <td><span class="badge badge-active">Active</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+12.30%*</span></td>
+            </tr>
+            <tr id="details-goldman-sachs-2020-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>Interim S&P 500 Index Details:</strong><br>
+                                • Start Price: 6351.67<br>
+                                • Current Price (as of 2026-05-01): 16935.35<br>
+                                • Interim CAGR: 18.30% (Nominal)
+                            </div>
+                            <div>
+                                <strong>Interim Inflation Details:</strong><br>
+                                • Start CPI: 257.80<br>
+                                • Current CPI (as of 2026-05-01): 335.12<br>
+                                • Inflation CAGR: 4.60% (Total: 29.99%)
+                            </div>
+                            <div>
+                                <strong>Active Prediction Details:</strong><br>
+                                <p class="context-p">Goldman Sachs projected a 6.0% nominal return for S&P 500.</p>
+                                <a href="https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167" target="_blank" class="source-link">Read Source Article ↗</a>
+                                <br><br>
+                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
+                                    Time elapsed: <strong>5.8 / 10.0 years</strong>. 
+                                    Elapses on <strong>2030-06-30</strong>.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+
+            <tr class="main-row active-prediction" onclick="toggleDetails('vanguard-2026-us-large-cap-10y')">
+                <td><strong><a href="https://finance.yahoo.com/news/vanguard-2026-outlook-raising-alarm-200300505.html" target="_blank" style="color: var(--text-primary); text-decoration: none; border-bottom: 1px dashed var(--blue);" onclick="event.stopPropagation();">Vanguard</a></strong></td>
+                <td>2026-01-31</td>
+                <td>10 Years</td>
+                <td>US Equities</td>
+                <td>4.00% to 5.00% <span class="return-type">(nominal)</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim return to date (unfinalized)">45.48%*</span></td>
+                <td><span class="badge badge-active">Active</span></td>
+                <td><span style="color: var(--text-secondary); font-style: italic;" title="Interim forecast error to date (unfinalized)">+40.98%*</span></td>
+            </tr>
+            <tr id="details-vanguard-2026-us-large-cap-10y" class="detail-row" style="display: none;">
+                <td colspan="8">
+                    <div class="detail-content" style="border-left-color: var(--grey); background-color: rgba(148, 163, 184, 0.03);">
+                        <div class="detail-grid">
+                            <div>
+                                <strong>Interim S&P 500 Index Details:</strong><br>
+                                • Start Price: 15441.15<br>
+                                • Current Price (as of 2026-05-01): 16935.35<br>
+                                • Interim CAGR: 45.48% (Nominal)
+                            </div>
+                            <div>
+                                <strong>Interim Inflation Details:</strong><br>
+                                • Start CPI: 325.25<br>
+                                • Current CPI (as of 2026-05-01): 335.12<br>
+                                • Inflation CAGR: 12.90% (Total: 3.03%)
+                            </div>
+                            <div>
+                                <strong>Active Prediction Details:</strong><br>
+                                <p class="context-p">Vanguard 2026 Outlook raising alarm, predicting 4-5% over next 10 years.</p>
+                                <a href="https://finance.yahoo.com/news/vanguard-2026-outlook-raising-alarm-200300505.html" target="_blank" class="source-link">Read Source Article ↗</a>
+                                <br><br>
+                                <span class="info-badge" style="background-color: var(--grey-alpha); color: var(--text-secondary);">
+                                    Time elapsed: <strong>0.2 / 10.0 years</strong>. 
+                                    Elapses on <strong>2036-01-31</strong>.
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -1812,86 +1886,6 @@
                 <div style="font-size: 0.8rem; color: var(--text-secondary); padding: 12px 24px; text-align: left; border-top: 1px solid var(--border-color); line-height: 1.5;">
                     <div>* Forecast error is calculated as the **absolute difference in percentage points (pp)** between the actual return CAGR (or interim CAGR to date) and the predicted range midpoint.</div>
                     <div style="margin-top: 6px; color: var(--text-muted);">* Note: <strong>Active predictions</strong> show italicized values with an asterisk (e.g. <em>12.34%*</em>) indicating the <strong>interim return and interim forecast error to date</strong>. Because the time horizon has not elapsed, these figures are unfinalized and subject to significant change.</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="chart-layout">
-            <div class="card chart-card">
-                <h3 style="margin-bottom: 16px; align-self: flex-start; font-size: 1.2rem; font-weight: 600;">Actual Return vs. Predicted Range</h3>
-                <img src="actual_vs_predicted.png" alt="Actual vs Predicted Chart">
-            </div>
-            
-            <div class="insight-layout">
-                
-        <div class="insight-row">
-            <div class="card insight-card">
-                <div class="insight-label">Closest Forecast</div>
-                <div class="insight-value" style="color: var(--green);">J.P. Morgan (2005)</div>
-                <div class="insight-desc">
-                    Predicted <strong>7.75%</strong> nominal return. 
-                    Actual was <strong>7.61%</strong> (Miss of 0.14%)
-                </div>
-            </div>
-            <div class="card insight-card">
-                <div class="insight-label">Largest Miss</div>
-                <div class="insight-value" style="color: var(--red);">BlackRock (2016)</div>
-                <div class="insight-desc">
-                    Predicted <strong>4.0%</strong> nominal return. 
-                    Actual was <strong>18.93%</strong> (Miss of 14.93%)
-                </div>
-            </div>
-        </div>
-        
-                
-                <div class="card analysis-card">
-                    <h3>The Bearish Bias of Institutional Forecasts</h3>
-                    <p>
-                        An analysis of the historical record reveals a striking pattern: 
-                        <strong>every single evaluated prediction overperformed its forecast range</strong>, often by a massive margin.
-                    </p>
-                    <p>
-                        For example, in 2016 both Vanguard and J.P. Morgan projected U.S. stock returns for the next 10 years would be muted. 
-                        Vanguard estimated 3.0%-7.0% nominal return, and J.P. Morgan projected 6.75%. 
-                        The S&P 500 Total Return index subsequently delivered an actual nominal return of <strong>15.57%</strong> annualized.
-                    </p>
-                    <p>
-                        <strong>Why are institutions consistently too conservative?</strong><br>
-                        1. <strong>Valuation-Based Models:</strong> Models like Vanguard's VCMM and GMO's forecasts are heavily driven by starting valuations. During the post-2009 era, high valuations (P/E ratios) constantly triggered warnings of mean reversion. However, valuations continued to expand, and corporate earnings grew faster than historical trends.<br>
-                        2. <strong>Asymmetric Risk:</strong> For asset managers, predicting high returns that fail to materialize carries high career and reputation risk. Conversely, predicting low returns when the market booms leaves clients pleasantly surprised.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="chart-layout" style="margin-top: 30px;">
-            <div class="card chart-card">
-                <h3 style="margin-bottom: 16px; align-self: flex-start; font-size: 1.2rem; font-weight: 600;">Prediction Calibration</h3>
-                <img src="calibration.png" alt="Prediction Calibration Plot">
-            </div>
-            
-            <div class="card analysis-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h3 style="margin-bottom: 16px;">Statistical Correlation & Fit</h3>
-                    <p>
-                        To determine if predictions are correlated with actual performance or if they are completely random, we ran an Ordinary Least Squares (OLS) regression on the <strong>34 elapsed predictions</strong>:
-                    </p>
-                    
-                    <div style="background-color: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-                        <span style="color: var(--blue);">• Pearson Correlation (r):</span> 0.4205<br>
-                        <span style="color: var(--green);">• p-value (slope test):</span> 0.013286 (Significant at 5% level)<br>
-                        <span style="color: var(--orange);">• OLS Trend Line:</span> Actual = 0.6108 * Predicted + 7.65%<br>
-                        <span style="color: var(--red);">• R-squared (R²):</span> 0.1768 (Explains 17.7% of variance)
-                    </div>
-                </div>
-                
-                <div>
-                    <p>
-                        <strong>Key Statistical Takeaways:</strong><br>
-                        • <strong>Significant Signal:</strong> The p-value of 0.0133 is below the standard 5% significance level, showing that Wall Street's forecasts contain genuine predictive value and are not random noise.<br>
-                        • <strong>Pessimistic Offset:</strong> The OLS trend line has an intercept of <strong>+7.65%</strong>. This indicates that even a predicted return of 0% historically translated to a positive actual return of 7.65% due to strong U.S. equity performance.<br>
-                        • <strong>Forecast Bias:</strong> The Mean Forecast Bias is <strong>+5.97%</strong>. A positive bias shows that Wall Street forecasts are systematically too conservative (underestimating actual returns).
-                    </p>
                 </div>
             </div>
         </div>
