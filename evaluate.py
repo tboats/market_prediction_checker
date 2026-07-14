@@ -241,6 +241,9 @@ def generate_chart(results):
         print("No elapsed results to plot.")
         return
         
+    # Sort elapsed results by date ascending
+    elapsed_results = sorted(elapsed_results, key=lambda x: x['source_date'])
+        
     fig, ax = plt.subplots(figsize=(13, 6), facecolor="#1e1e24")
     ax.set_facecolor("#1e1e24")
     
