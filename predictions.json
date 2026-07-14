@@ -1,0 +1,366 @@
+[
+  {
+    "id": "gmo-2000-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2000-01-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.9,
+      -1.9
+    ],
+    "context": "Peak of the dot-com bubble. GMO projected negative real returns.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/gmos-stunningly-accurate-forecast/"
+  },
+  {
+    "id": "gmo-2009-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2009-06-30",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      6.2,
+      6.2
+    ],
+    "context": "Post-GFC bottom. GMO projected optimistic real returns.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/"
+  },
+  {
+    "id": "vanguard-2011-us-large-cap-10y",
+    "organization": "Vanguard",
+    "source_date": "2011-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      8.0,
+      12.0
+    ],
+    "context": "Early post-GFC recovery. Vanguard expected 8-12% nominal returns.",
+    "source_url": "https://www.advisorperspectives.com/articles/2010/12/14/vanguard-s-2011-economic-and-investment-outlook"
+  },
+  {
+    "id": "gmo-2011-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2011-09-30",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      3.1,
+      3.1
+    ],
+    "context": "Mid-2011 correction. GMO forecasted 3.1% real returns.",
+    "source_url": "https://www.mymoneyblog.com/gmo-asset-return-forecasts-vs-actual-returns-2011-2018.html"
+  },
+  {
+    "id": "vanguard-2016-us-large-cap-10y",
+    "organization": "Vanguard",
+    "source_date": "2016-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      3.0,
+      7.0
+    ],
+    "context": "Vanguard VCMM median outlook of ~5.1% nominal (expressed as 3-7% range).",
+    "source_url": "https://www.advisorperspectives.com/articles/2015/12/15/vanguard-s-2016-economic-and-market-outlook"
+  },
+  {
+    "id": "jpmorgan-2016-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2016-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      6.75,
+      6.75
+    ],
+    "context": "JPM LTCMA projected 6.75% nominal return.",
+    "source_url": "https://www.prnewswire.com/news-releases/jp-morgan-asset-management-releases-2016-long-term-capital-markets-assumptions-presents-views-on-strategic-portfolio-allocations-and-realistic-return-expectations-300168862.html"
+  },
+  {
+    "id": "gmo-2015-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2015-11-30",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -2.6,
+      -2.6
+    ],
+    "context": "GMO projected negative real returns (-2.6%) due to high valuations.",
+    "source_url": "https://www.mymoneyblog.com/gmo-asset-class-return-forecasts-2015.html"
+  },
+  {
+    "id": "vanguard-2026-us-large-cap-10y",
+    "organization": "Vanguard",
+    "source_date": "2026-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      4.0,
+      5.0
+    ],
+    "context": "Vanguard 2026 Outlook raising alarm, predicting 4-5% over next 10 years.",
+    "source_url": "https://finance.yahoo.com/news/vanguard-2026-outlook-raising-alarm-200300505.html"
+  },
+  {
+    "id": "bogle-2011-us-equities-10y",
+    "organization": "Jack Bogle",
+    "source_date": "2011-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.0,
+      7.0
+    ],
+    "context": "Jack Bogle predicted a 7.0% nominal return based on 2.0% dividend yield and 5.0% earnings growth.",
+    "source_url": "https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/"
+  },
+  {
+    "id": "bogle-2015-us-equities-10y",
+    "organization": "Jack Bogle",
+    "source_date": "2015-10-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      4.0,
+      4.0
+    ],
+    "context": "Jack Bogle warned investors to prepare for lower returns (~4.0% nominal) due to multiple contraction.",
+    "source_url": "https://www.morningstar.com/articles/720000/bogle-prepare-for-4-stock-returns.html"
+  },
+  {
+    "id": "bogle-2016-us-equities-10y",
+    "organization": "Jack Bogle",
+    "source_date": "2016-11-30",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      4.0,
+      6.0
+    ],
+    "context": "Bogle projected 4-6% nominal annualized returns over the next 10 years.",
+    "source_url": "https://awealthofcommonsense.com/2016/09/the-john-bogle-expected-return-formula/"
+  },
+  {
+    "id": "research-affiliates-2015-us-large-cap-10y",
+    "organization": "Research Affiliates",
+    "source_date": "2015-09-30",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      1.1,
+      1.1
+    ],
+    "context": "Research Affiliates expected a 1.1% real return over the next 10 years.",
+    "source_url": "https://www.researchaffiliates.com/aai-hub"
+  },
+  {
+    "id": "research-affiliates-2016-us-large-cap-10y",
+    "organization": "Research Affiliates",
+    "source_date": "2016-04-30",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      0.0,
+      1.0
+    ],
+    "context": "Research Affiliates expected U.S. stocks to deliver real returns between 0.0% and 1.0%.",
+    "source_url": "https://www.researchaffiliates.com/aai-hub"
+  },
+  {
+    "id": "blackrock-2016-us-equities-5y",
+    "organization": "BlackRock",
+    "source_date": "2016-10-31",
+    "horizon_years": 5,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      4.0,
+      4.0
+    ],
+    "context": "BlackRock projected U.S. Equities nominal returns of 4.0% over the next 5 years.",
+    "source_url": "https://www.blackrock.com/institutions/en-us/insights/charts/capital-market-assumptions"
+  },
+  {
+    "id": "vanguard-2013-us-equities-10y",
+    "organization": "Vanguard",
+    "source_date": "2013-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      6.0,
+      9.0
+    ],
+    "context": "Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.",
+    "source_url": "https://www.advisorperspectives.com/articles/2012/12/18/vanguard-economic-and-investment-outlook-2013"
+  },
+  {
+    "id": "vanguard-2014-us-equities-10y",
+    "organization": "Vanguard",
+    "source_date": "2014-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      6.0,
+      9.0
+    ],
+    "context": "Vanguard projected U.S. Equities return in the 6.0%-9.0% nominal range.",
+    "source_url": "https://www.advisorperspectives.com/articles/2013/12/17/vanguard-economic-and-investment-outlook-2014"
+  },
+  {
+    "id": "vanguard-2015-us-equities-10y",
+    "organization": "Vanguard",
+    "source_date": "2015-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Equities",
+    "return_type": "nominal",
+    "predicted_range": [
+      5.0,
+      8.0
+    ],
+    "context": "Vanguard projected U.S. Equities return in the 5.0%-8.0% nominal range.",
+    "source_url": "https://www.advisorperspectives.com/articles/2014/12/16/vanguard-economic-and-investment-outlook-2015"
+  },
+  {
+    "id": "jpmorgan-2011-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2011-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.75,
+      7.75
+    ],
+    "context": "JPM LTCMA projected U.S. Large Cap nominal return at 7.75%.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "jpmorgan-2013-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2013-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.5,
+      7.5
+    ],
+    "context": "JPM LTCMA projected U.S. Large Cap nominal return at 7.50%.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "jpmorgan-2014-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2014-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.25,
+      7.25
+    ],
+    "context": "JPM LTCMA projected U.S. Large Cap nominal return at 7.25%.",
+    "source_url": "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/portfolio-insights/ltcma/"
+  },
+  {
+    "id": "jpmorgan-2015-us-large-cap-10y",
+    "organization": "J.P. Morgan",
+    "source_date": "2015-01-31",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      7.0,
+      7.0
+    ],
+    "context": "JPM LTCMA projected U.S. Large Cap nominal return at 7.00%.",
+    "source_url": "https://www.prnewswire.com/news-releases/is-this-the-road-to-normalization-launching-2015-market-assumptions-by-jp-morgan-asset-management-281618271.html"
+  },
+  {
+    "id": "gmo-2012-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2012-12-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.1,
+      -1.1
+    ],
+    "context": "GMO 7-year real return forecast was -1.1% annually.",
+    "source_url": "https://www.cxoadvisory.com/individual-gurus/jeremy-grantham/"
+  },
+  {
+    "id": "gmo-2013-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2013-11-30",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.3,
+      -1.3
+    ],
+    "context": "GMO 7-year real return forecast was -1.3% annually.",
+    "source_url": "http://www.amarginofsafety.com/2013/12/03/gmo-7-year-asset-class-forecast-november-2013/"
+  },
+  {
+    "id": "gmo-2014-us-large-cap-7y",
+    "organization": "GMO",
+    "source_date": "2014-12-31",
+    "horizon_years": 7,
+    "target_asset": "US Large Cap",
+    "return_type": "real",
+    "predicted_range": [
+      -1.5,
+      -1.5
+    ],
+    "context": "GMO 7-year real return forecast was -1.5% annually.",
+    "source_url": "https://www.gmo.com/globalassets/articles/quarterly-letter/2014/bi_isthispurgatoryorhell_qtlyletter_3q2014.pdf"
+  },
+  {
+    "id": "aqr-2013-us-large-cap-10y",
+    "organization": "AQR",
+    "source_date": "2013-06-30",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      5.2,
+      5.2
+    ],
+    "context": "AQR projected nominal return of 5.2% (real 3.0% + 2.2% inflation).",
+    "source_url": "https://www.aqr.com/Insights/Research/Alternative-Thinking/Capital-Market-Assumptions-for-Major-Asset-Classes"
+  },
+  {
+    "id": "goldman-sachs-2020-us-large-cap-10y",
+    "organization": "Goldman Sachs",
+    "source_date": "2020-06-30",
+    "horizon_years": 10,
+    "target_asset": "US Large Cap",
+    "return_type": "nominal",
+    "predicted_range": [
+      6.0,
+      6.0
+    ],
+    "context": "Goldman Sachs projected a 6.0% nominal return for S&P 500.",
+    "source_url": "https://markets.businessinsider.com/news/stocks/stocks-market-outlook-long-term-forecast-bonds-equities-goldman-sachs-2020-7-1029398167"
+  }
+]
